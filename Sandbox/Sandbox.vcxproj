@@ -131,6 +131,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\DX11TestLayer.h" />
     <ClInclude Include="src\ExampleLayer.h" />
     <ClInclude Include="src\Examples\BillboardLoading\BillboardLoading.h" />
     <ClInclude Include="src\Examples\ModelLoading\ModelLoading.h" />
@@ -158,6 +159,7 @@
     <ClInclude Include="src\Sandbox3D\stb_image\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\DX11TestLayer.cpp" />
     <ClCompile Include="src\Examples\BillboardLoading\BillboardLoading.cpp" />
     <ClCompile Include="src\Examples\ModelLoading\ModelLoading.cpp" />
     <ClCompile Include="src\Examples\SkyboxLoading\SkyboxLoading.cpp" />

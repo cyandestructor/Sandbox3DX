@@ -1,7 +1,8 @@
 #include <Jass.h>
 #include <Jass/Core/EntryPoint.h>
 
-#include "Examples/ModelLoading/ModelLoading.h"
+#include "DX11TestLayer.h"
+//#include "Examples/ModelLoading/ModelLoading.h"
 //#include "Examples/Transformations/Transformations.h"
 //#include "Examples/TerrainLoading/TerrainLoading.h"
 //#include "Examples/SkyboxLoading/SkyboxLoading.h"
@@ -31,7 +32,8 @@ class Sandbox : public Jass::Application {
 
 public:
 	Sandbox() {
-		PushLayer(new ModelLoading);
+		PushLayer(new DX11TestLayer);
+		//PushLayer(new ModelLoading);
 		//PushLayer(new Transformations);
 		//PushLayer(new TerrainLoading);
 		//PushLayer(new SkyboxLoading);
