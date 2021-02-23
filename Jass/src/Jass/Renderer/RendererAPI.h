@@ -21,7 +21,7 @@ namespace Jass {
 	public:
 		enum class API
 		{
-			None = 0, OpenGL
+			None = 0, OpenGL, DirectX11
 		};
 
 		virtual void Init() = 0;

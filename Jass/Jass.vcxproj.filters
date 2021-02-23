@@ -1548,6 +1548,8 @@
     <ClInclude Include="vendor\stb_image\stb_image.h">
       <Filter>vendor\stb_image</Filter>
     </ClInclude>
+    <ClInclude Include="src\Platform\DirectX11\DirectX11Context.h" />
+    <ClInclude Include="src\Platform\DirectX11\DirectX11Graphics.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Jass\Camera\OrthographicCamera.cpp">
@@ -1679,5 +1681,7 @@
     <ClCompile Include="vendor\stb_image\stb_image.cpp">
       <Filter>vendor\stb_image</Filter>
     </ClCompile>
+    <ClCompile Include="src\Platform\DirectX11\DirectX11Context.cpp" />
+    <ClCompile Include="src\Platform\DirectX11\DirectX11Graphics.cpp" />
   </ItemGroup>
 </Project>
