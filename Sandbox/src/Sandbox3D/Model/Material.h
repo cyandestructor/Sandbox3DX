@@ -13,6 +13,7 @@ public:
 	void SetColor(const Jass::JVec4& color) { m_color = color; }
 	
 	void SetDiffuseTexture(const std::string& textureFilename);
+	void SetSpecularTexture(const std::string& textureFilename);
 	void SetNormalTexture(const std::string& textureFilename);
 
 	void SetAmbientReduction(float reductionFactor) { m_ambientReduction = reductionFactor; }
@@ -36,6 +37,7 @@ private:
 	Jass::Ref<Jass::Texture2D> m_diffuseTexture;
 	float m_diffuseReduction = 1.0f;
 	
+	Jass::Ref<Jass::Texture2D> m_specularTexture;
 	float m_reflectivity = 0.0f;
 	float m_shineDamper = 0.0f;
 

@@ -16,6 +16,11 @@ void Material::SetDiffuseTexture(const std::string& textureFilename)
 	m_diffuseTexture = Jass::Texture2D::Create(textureFilename);
 }
 
+void Material::SetSpecularTexture(const std::string& textureFilename)
+{
+	m_specularTexture = Jass::Texture2D::Create(textureFilename);
+}
+
 void Material::SetNormalTexture(const std::string& textureFilename)
 {
 	m_normalTexture = Jass::Texture2D::Create(textureFilename);
@@ -49,4 +54,10 @@ void Material::Prepare(Jass::Ref<Jass::Shader>& shader, const Light& light) cons
 
 	shader->SetInt("u_normalTex", 1);
 
+	if (m_specularTexture)
+		m_specularTexture->Bind(2);
+	else
+		m_whiteTexture->Bind(2);
+
+	shader->SetInt("u_specularTex", 2);
 }

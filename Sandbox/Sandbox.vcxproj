@@ -136,6 +136,7 @@
     <ClInclude Include="src\Examples\BillboardLoading\BillboardLoading.h" />
     <ClInclude Include="src\Examples\ModelLoading\ModelLoading.h" />
     <ClInclude Include="src\Examples\SkyboxLoading\SkyboxLoading.h" />
+    <ClInclude Include="src\Examples\SpecularMaps\SpecularMaps.h" />
     <ClInclude Include="src\Examples\TerrainLoading\TerrainLoading.h" />
     <ClInclude Include="src\Examples\Transformations\Transformations.h" />
     <ClInclude Include="src\Examples\WaterLoading\WaterLoading.h" />
@@ -163,6 +164,7 @@
     <ClCompile Include="src\Examples\BillboardLoading\BillboardLoading.cpp" />
     <ClCompile Include="src\Examples\ModelLoading\ModelLoading.cpp" />
     <ClCompile Include="src\Examples\SkyboxLoading\SkyboxLoading.cpp" />
+    <ClCompile Include="src\Examples\SpecularMaps\SpecularMaps.cpp" />
     <ClCompile Include="src\Examples\TerrainLoading\TerrainLoading.cpp" />
     <ClCompile Include="src\Examples\Transformations\Transformations.cpp" />
     <ClCompile Include="src\Examples\WaterLoading\WaterLoading.cpp" />

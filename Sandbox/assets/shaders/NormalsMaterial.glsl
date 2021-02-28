@@ -63,11 +63,12 @@ uniform float u_reflectivity;
 uniform float u_shineDamper;
 
 uniform sampler2D u_diffuseTex;
+uniform sampler2D u_specularTex;
 uniform sampler2D u_normalTex;
 
 vec3 AmbientLight(vec3 lightColor, float reductionFactor);
 vec3 DiffuseLight(vec3 toLightVector, vec3 normal, vec3 lightColor, float reductionFactor);
-vec3 SpecularLight(vec3 lightDirection, vec3 normal, vec3 toCameraVector, vec3 lightColor, float reflectivity, float shineDamper);
+vec3 SpecularLight(vec3 lightDirection, vec3 normal, vec3 toCameraVector, vec3 lightColor, float reflectivity, float shineDamper, float reductionFactor);
 
 void main()
 {
@@ -75,9 +76,13 @@ void main()
 	texNormal = normalize(texNormal * 2.0f - 1.0f);
 
 	vec4 diffuseColor = texture(u_diffuseTex, texCoords) * u_color;
+
+	vec4 texSpecular = texture(u_specularTex, texCoords);
+	float specularReduction = texSpecular.r; // It can be any rgb component
+
 	vec4 ambientLight = vec4(AmbientLight(u_lightColor.xyz, u_ambientReduction), 1.0f);
 	vec4 diffuseLight = vec4(DiffuseLight(toLightVector, texNormal, u_lightColor.xyz, u_diffuseReduction), 1.0f);
-	vec4 specularLight = vec4(SpecularLight(lightDirection, texNormal, toCameraVector, u_lightColor.xyz, u_reflectivity, u_shineDamper), 1.0f);
+	vec4 specularLight = vec4(SpecularLight(lightDirection, texNormal, toCameraVector, u_lightColor.xyz, u_reflectivity, u_shineDamper, specularReduction), 1.0f);
 
 	o_color =  diffuseColor * (ambientLight + diffuseLight + specularLight);
 }
@@ -97,7 +102,7 @@ vec3 DiffuseLight(vec3 toLightVector, vec3 normal, vec3 lightColor, float reduct
 	return diffuseLight;
 }
 
-vec3 SpecularLight(vec3 lightDirection, vec3 normal, vec3 toCameraVector, vec3 lightColor, float reflectivity, float shineDamper)
+vec3 SpecularLight(vec3 lightDirection, vec3 normal, vec3 toCameraVector, vec3 lightColor, float reflectivity, float shineDamper, float reductionFactor)
 {
 	vec3 reflectedLightDirection = reflect(lightDirection, normal);
 	
@@ -106,7 +111,7 @@ vec3 SpecularLight(vec3 lightDirection, vec3 normal, vec3 toCameraVector, vec3 l
 
 	float dampedFactor = pow(specularFactor, shineDamper);
 
-	vec3 specularLight = lightColor * dampedFactor * reflectivity;
+	vec3 specularLight = lightColor * dampedFactor * reflectivity * reductionFactor;
 
 	return specularLight;
 }

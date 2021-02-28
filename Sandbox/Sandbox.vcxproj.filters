@@ -93,6 +93,7 @@
     <ClInclude Include="src\Examples\BillboardLoading\BillboardLoading.h" />
     <ClInclude Include="src\Examples\WaterLoading\WaterLoading.h" />
     <ClInclude Include="src\DX11TestLayer.h" />
+    <ClInclude Include="src\Examples\SpecularMaps\SpecularMaps.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Sandbox2D.cpp" />
@@ -146,5 +147,6 @@
     <ClCompile Include="src\Examples\BillboardLoading\BillboardLoading.cpp" />
     <ClCompile Include="src\Examples\WaterLoading\WaterLoading.cpp" />
     <ClCompile Include="src\DX11TestLayer.cpp" />
+    <ClCompile Include="src\Examples\SpecularMaps\SpecularMaps.cpp" />
   </ItemGroup>
 </Project>
