@@ -1550,6 +1550,7 @@
     </ClInclude>
     <ClInclude Include="src\Platform\DirectX11\DirectX11Context.h" />
     <ClInclude Include="src\Platform\DirectX11\DirectX11Graphics.h" />
+    <ClInclude Include="src\Platform\DirectX11\DirectX11RendererAPI.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Jass\Camera\OrthographicCamera.cpp">
@@ -1683,5 +1684,6 @@
     </ClCompile>
     <ClCompile Include="src\Platform\DirectX11\DirectX11Context.cpp" />
     <ClCompile Include="src\Platform\DirectX11\DirectX11Graphics.cpp" />
+    <ClCompile Include="src\Platform\DirectX11\DirectX11RendererAPI.cpp" />
   </ItemGroup>
 </Project>

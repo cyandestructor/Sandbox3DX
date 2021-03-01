@@ -7,8 +7,8 @@ DX11TestLayer::DX11TestLayer()
 
 void DX11TestLayer::OnAttach()
 {
-	LoadShaders();
-	CreateTriangle();
+	//LoadShaders();
+	//CreateTriangle();
 }
 
 void DX11TestLayer::OnDetach()
@@ -19,12 +19,12 @@ void DX11TestLayer::OnUpdate(Jass::Timestep ts)
 {
 	m_cameraController.OnUpdate(ts);
 
-	Jass::RenderCommand::SetClearColor({ 0.2f, 0.2f, 0.2f, 0.0f });
+	Jass::RenderCommand::SetClearColor({ 0.8f, 0.2f, 0.2f, 0.0f });
 	Jass::RenderCommand::Clear();
 
 	Jass::Renderer::BeginScene(m_cameraController.GetCamera());
 	
-	Jass::Renderer::Submit(m_shaderLib.GetShader("Triangle"), m_triangle);
+	//Jass::Renderer::Submit(m_shaderLib.GetShader("Triangle"), m_triangle);
 
 	Jass::Renderer::EndScene();
 }

@@ -2,7 +2,11 @@
 #include "WinWindow.h"
 #include "Jass/Events/Events.h"
 
-#include "Platform/OpenGL/OpenGLContext.h"
+#define GLFW_EXPOSE_NATIVE_WIN32
+#include <GLFW/glfw3native.h>
+
+//#include "Platform/OpenGL/OpenGLContext.h"
+#include "Platform/DirectX11/DirectX11Context.h"
 
 namespace Jass {
 
@@ -61,6 +65,8 @@ namespace Jass {
 		glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
 #endif // JASS_DEBUG
 
+		glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
+
 		{
 			JASS_PROFILE_SCOPE("glfw CreateWindow");
 			m_window = glfwCreateWindow((int)m_windowData.Width, (int)m_windowData.Height,
@@ -72,7 +78,7 @@ namespace Jass {
 		}
 
 		//Create the context
-		m_context = std::make_unique<OpenGLContext>(m_window);
+		m_context = std::make_unique<DirectX11Context>(glfwGetWin32Window(m_window));
 		m_context->Init();
 		glfwSetWindowUserPointer(m_window, &m_windowData);
 		SetVSync(true);

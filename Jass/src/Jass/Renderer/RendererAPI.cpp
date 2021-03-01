@@ -3,7 +3,7 @@
 
 namespace Jass {
 
-	RendererAPI::API RendererAPI::s_API = RendererAPI::API::OpenGL;
+	RendererAPI::API RendererAPI::s_API = RendererAPI::API::DirectX11;
 
 	RendererAPI::API RendererAPI::GetAPI()
 	{
