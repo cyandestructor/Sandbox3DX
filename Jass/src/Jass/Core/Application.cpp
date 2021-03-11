@@ -28,8 +28,8 @@ namespace Jass {
 		Renderer::Init();
 		//Renderer2D::Init();
 
-		//m_imGuiLayer = new ImGuiLayer();
-		//PushOverlay(m_imGuiLayer);
+		m_imGuiLayer = new ImGuiLayer();
+		PushOverlay(m_imGuiLayer);
 	}
 
 	Application::~Application()
@@ -95,14 +95,14 @@ namespace Jass {
 					layer->OnUpdate(ts);
 			}
 
-			/*m_imGuiLayer->Begin();
+			m_imGuiLayer->Begin();
 			{
 				JASS_PROFILE_SCOPE("Layer stack OnImGuiRender");
 
 				for (Layer* layer : m_layerStack)
 					layer->OnImGuiRender();
 			}
-			m_imGuiLayer->End();*/
+			m_imGuiLayer->End();
 
 			m_window->OnUpdate();
 		}

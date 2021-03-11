@@ -1,5 +1,7 @@
 #include "DX11TestLayer.h"
 
+#include <imgui.h>
+
 DX11TestLayer::DX11TestLayer()
 	:Layer("DX11TestLayer"), m_cameraController(1280.0f / 720.0f)
 {
@@ -31,6 +33,11 @@ void DX11TestLayer::OnUpdate(Jass::Timestep ts)
 
 void DX11TestLayer::OnImGuiRender()
 {
+	/*static bool open = true;
+	ImGui::ShowDemoWindow(&open);*/
+	ImGui::Begin("test");
+	ImGui::Text("Hola mundo desde DirectX 11 con ImGui y GLFW");
+	ImGui::End();
 }
 
 void DX11TestLayer::OnEvent(Jass::Event& e)

@@ -1,6 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <Filter Include="Examples">
+      <UniqueIdentifier>{643CF628-5009-5134-7922-3FDC654E86C2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Examples\BillboardLoading">
+      <UniqueIdentifier>{DC0A55D9-48CD-8863-917D-17F0FD7E6141}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Examples\ModelLoading">
+      <UniqueIdentifier>{425370F3-AEBF-2BEE-77B3-C34BE3DE4D56}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Examples\SkyboxLoading">
+      <UniqueIdentifier>{B16261F1-9D5C-8A43-86C9-20547262F0AF}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Examples\SpecularMaps">
+      <UniqueIdentifier>{43A5A987-AF11-6582-7805-FDDFE43087EA}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Examples\TerrainLoading">
+      <UniqueIdentifier>{E605D06A-523D-1802-5B47-7C25C7FD3EFB}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Examples\Transformations">
+      <UniqueIdentifier>{7DC2CAFF-69E7-1980-9232-FF0F7EB6189E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Examples\WaterLoading">
+      <UniqueIdentifier>{D41E145C-408B-CF56-097F-67B475AAF1BE}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Sandbox3D">
       <UniqueIdentifier>{CB155D3F-3780-11B6-80BE-C25BEC67EF0A}</UniqueIdentifier>
     </Filter>
@@ -33,7 +57,29 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\DX11TestLayer.h" />
     <ClInclude Include="src\ExampleLayer.h" />
+    <ClInclude Include="src\Examples\BillboardLoading\BillboardLoading.h">
+      <Filter>Examples\BillboardLoading</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Examples\ModelLoading\ModelLoading.h">
+      <Filter>Examples\ModelLoading</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Examples\SkyboxLoading\SkyboxLoading.h">
+      <Filter>Examples\SkyboxLoading</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Examples\SpecularMaps\SpecularMaps.h">
+      <Filter>Examples\SpecularMaps</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Examples\TerrainLoading\TerrainLoading.h">
+      <Filter>Examples\TerrainLoading</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Examples\Transformations\Transformations.h">
+      <Filter>Examples\Transformations</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Examples\WaterLoading\WaterLoading.h">
+      <Filter>Examples\WaterLoading</Filter>
+    </ClInclude>
     <ClInclude Include="src\Sandbox2D.h" />
     <ClInclude Include="src\Sandbox3D\Model\Billboard.h">
       <Filter>Sandbox3D\Model</Filter>
@@ -86,16 +132,30 @@
     <ClInclude Include="src\Sandbox3D\stb_image\stb_image.h">
       <Filter>Sandbox3D\stb_image</Filter>
     </ClInclude>
-    <ClInclude Include="src\Examples\ModelLoading\ModelLoading.h" />
-    <ClInclude Include="src\Examples\Transformations\Transformations.h" />
-    <ClInclude Include="src\Examples\TerrainLoading\TerrainLoading.h" />
-    <ClInclude Include="src\Examples\SkyboxLoading\SkyboxLoading.h" />
-    <ClInclude Include="src\Examples\BillboardLoading\BillboardLoading.h" />
-    <ClInclude Include="src\Examples\WaterLoading\WaterLoading.h" />
-    <ClInclude Include="src\DX11TestLayer.h" />
-    <ClInclude Include="src\Examples\SpecularMaps\SpecularMaps.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\DX11TestLayer.cpp" />
+    <ClCompile Include="src\Examples\BillboardLoading\BillboardLoading.cpp">
+      <Filter>Examples\BillboardLoading</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Examples\ModelLoading\ModelLoading.cpp">
+      <Filter>Examples\ModelLoading</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Examples\SkyboxLoading\SkyboxLoading.cpp">
+      <Filter>Examples\SkyboxLoading</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Examples\SpecularMaps\SpecularMaps.cpp">
+      <Filter>Examples\SpecularMaps</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Examples\TerrainLoading\TerrainLoading.cpp">
+      <Filter>Examples\TerrainLoading</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Examples\Transformations\Transformations.cpp">
+      <Filter>Examples\Transformations</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Examples\WaterLoading\WaterLoading.cpp">
+      <Filter>Examples\WaterLoading</Filter>
+    </ClCompile>
     <ClCompile Include="src\Sandbox2D.cpp" />
     <ClCompile Include="src\Sandbox3D\Model\Billboard.cpp">
       <Filter>Sandbox3D\Model</Filter>
@@ -140,13 +200,5 @@
       <Filter>Sandbox3D\stb_image</Filter>
     </ClCompile>
     <ClCompile Include="src\SandboxApp.cpp" />
-    <ClCompile Include="src\Examples\ModelLoading\ModelLoading.cpp" />
-    <ClCompile Include="src\Examples\Transformations\Transformations.cpp" />
-    <ClCompile Include="src\Examples\TerrainLoading\TerrainLoading.cpp" />
-    <ClCompile Include="src\Examples\SkyboxLoading\SkyboxLoading.cpp" />
-    <ClCompile Include="src\Examples\BillboardLoading\BillboardLoading.cpp" />
-    <ClCompile Include="src\Examples\WaterLoading\WaterLoading.cpp" />
-    <ClCompile Include="src\DX11TestLayer.cpp" />
-    <ClCompile Include="src\Examples\SpecularMaps\SpecularMaps.cpp" />
   </ItemGroup>
 </Project>

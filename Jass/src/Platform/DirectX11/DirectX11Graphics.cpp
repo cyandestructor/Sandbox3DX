@@ -44,6 +44,8 @@ namespace Jass {
 		ComPtr<ID3D11Resource> backBuffer = nullptr;
 		m_swapChain->GetBuffer(0, __uuidof(ID3D11Resource), &backBuffer);
 		m_device->CreateRenderTargetView(backBuffer.Get(), nullptr, &m_renderTargetView);
+
+		m_deviceContext->OMSetRenderTargets(1, m_renderTargetView.GetAddressOf(), nullptr);
 	}
 
 	void DirectX11Graphics::Init(HWND hWnd)
