@@ -22,6 +22,9 @@ namespace Jass {
 
 	void DirectX11RendererAPI::Clear()
 	{
+		auto& graphics = DirectX11Graphics::Get();
+		auto dsv = graphics.GetDepthStencilView();
+		graphics.GetDeviceContext()->ClearDepthStencilView(dsv.Get(), D3D11_CLEAR_DEPTH, 1.0f, 0u);
 	}
 
 	void DirectX11RendererAPI::EnableClipDistance(bool enable, unsigned int index)
