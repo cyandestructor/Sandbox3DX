@@ -3,10 +3,16 @@
 
 namespace Jass {
 
-	namespace Strings {
+	namespace Utilities {
 
-		std::vector<std::string> Split(const std::string& str, char separator);
-		std::vector<std::string> Split(const std::string& str, const std::string& separator);
+		namespace Strings {
+
+			std::vector<std::string> Split(const std::string& str, char separator);
+			std::vector<std::string> Split(const std::string& str, const std::string& separator);
+
+			std::wstring ToWstring(const std::string& str);
+		}
+
 	}
 
 }
