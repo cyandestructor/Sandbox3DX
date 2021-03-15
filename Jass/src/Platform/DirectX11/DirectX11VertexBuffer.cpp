@@ -157,19 +157,7 @@ namespace Jass {
 	{
 		ShaderDataType type = layoutElement.Type;
 
-		if (type != ShaderDataType::Mat3 && type != ShaderDataType::Mat4) {
-			D3D11_INPUT_ELEMENT_DESC element = {};
-			element.SemanticName = layoutElement.Name.c_str();
-			element.SemanticIndex = 0u;
-			element.Format = ToDXGIFormat(layoutElement);
-			element.InputSlot = 0u;
-			element.AlignedByteOffset = layoutElement.Offset;
-			element.InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
-			element.InstanceDataStepRate = 0u;
-
-			elements.push_back(element);
-		}
-		else if (type == ShaderDataType::Mat3) {
+		if (type == ShaderDataType::Mat3) {
 			for (unsigned int i = 0; i < 3; i++) {
 				D3D11_INPUT_ELEMENT_DESC element = {};
 				element.SemanticName = layoutElement.Name.c_str();
@@ -184,8 +172,8 @@ namespace Jass {
 				elements.push_back(element);
 			}
 		}
-		else if (type == ShaderDataType::Mat3) {
-			for (unsigned int i = 0; 4 < 3; i++) {
+		else if (type == ShaderDataType::Mat4) {
+			for (unsigned int i = 0; i < 4; i++) {
 				D3D11_INPUT_ELEMENT_DESC element = {};
 				element.SemanticName = layoutElement.Name.c_str();
 				element.SemanticIndex = i;
@@ -198,6 +186,18 @@ namespace Jass {
 
 				elements.push_back(element);
 			}
+		}
+		else {
+			D3D11_INPUT_ELEMENT_DESC element = {};
+			element.SemanticName = layoutElement.Name.c_str();
+			element.SemanticIndex = 0u;
+			element.Format = ToDXGIFormat(layoutElement);
+			element.InputSlot = 0u;
+			element.AlignedByteOffset = layoutElement.Offset;
+			element.InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
+			element.InstanceDataStepRate = 0u;
+
+			elements.push_back(element);
 		}
 	}
 
