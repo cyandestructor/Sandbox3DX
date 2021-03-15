@@ -209,8 +209,10 @@
     <ClInclude Include="src\Jass\Utility\JassUtilities.h" />
     <ClInclude Include="src\Platform\DirectX11\DirectX11Context.h" />
     <ClInclude Include="src\Platform\DirectX11\DirectX11Graphics.h" />
+    <ClInclude Include="src\Platform\DirectX11\DirectX11IndexBuffer.h" />
     <ClInclude Include="src\Platform\DirectX11\DirectX11RendererAPI.h" />
     <ClInclude Include="src\Platform\DirectX11\DirectX11Shader.h" />
+    <ClInclude Include="src\Platform\DirectX11\DirectX11VertexArray.h" />
     <ClInclude Include="src\Platform\DirectX11\DirectX11VertexBuffer.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLFramebuffer.h" />
@@ -667,8 +669,10 @@
     <ClCompile Include="src\Jass\Utility\JassUtilities.cpp" />
     <ClCompile Include="src\Platform\DirectX11\DirectX11Context.cpp" />
     <ClCompile Include="src\Platform\DirectX11\DirectX11Graphics.cpp" />
+    <ClCompile Include="src\Platform\DirectX11\DirectX11IndexBuffer.cpp" />
     <ClCompile Include="src\Platform\DirectX11\DirectX11RendererAPI.cpp" />
     <ClCompile Include="src\Platform\DirectX11\DirectX11Shader.cpp" />
+    <ClCompile Include="src\Platform\DirectX11\DirectX11VertexArray.cpp" />
     <ClCompile Include="src\Platform\DirectX11\DirectX11VertexBuffer.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLFramebuffer.cpp" />

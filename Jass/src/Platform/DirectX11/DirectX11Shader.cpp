@@ -14,7 +14,7 @@ namespace Jass {
 		size_t length = blob->GetBufferSize();
 
 		char* buffer = new char[length + 1];
-		strcpy_s(buffer, length, reinterpret_cast<char*>(blob->GetBufferPointer()));
+		strcpy_s(buffer, length, static_cast<char*>(blob->GetBufferPointer()));
 		buffer[length] = 0;
 		std::string str = buffer;
 		delete[] buffer;

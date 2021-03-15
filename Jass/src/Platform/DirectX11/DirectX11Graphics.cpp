@@ -10,6 +10,7 @@ namespace Jass {
 	DirectX11Graphics::DirectX11Graphics(HWND hWnd)
 	{
 		CreateDeviceAndSwapChain(hWnd);
+		CreateViewport();
 		CreateRenderTargetView();
 		CreateDepthStencilView();
 
@@ -26,6 +27,12 @@ namespace Jass {
 		JASS_ASSERT(s_graphics, "Graphics must be initialized");
 
 		return *s_graphics;
+	}
+
+	void DirectX11Graphics::SetViewport(D3D11_VIEWPORT viewport)
+	{
+		m_viewport = viewport;
+		m_deviceContext->RSSetViewports(1u, &m_viewport);
 	}
 
 	void DirectX11Graphics::CreateDeviceAndSwapChain(HWND hWnd)
@@ -111,6 +118,24 @@ namespace Jass {
 		dsvDesc.Texture2D.MipSlice = 0u;
 
 		m_device->CreateDepthStencilView(dsTexture.Get(), &dsvDesc, &m_depthStencilView);
+	}
+
+	void DirectX11Graphics::CreateViewport()
+	{
+		// Get the Swap Chain Description to get the width and height
+		DXGI_SWAP_CHAIN_DESC scDesc = {};
+		m_swapChain->GetDesc(&scDesc);
+
+		unsigned int width = scDesc.BufferDesc.Width, height = scDesc.BufferDesc.Height;
+
+		m_viewport.TopLeftX = 0.0f;
+		m_viewport.TopLeftY = 0.0f;
+		m_viewport.Width = width;
+		m_viewport.Height = height;
+		m_viewport.MinDepth = 0.0f;
+		m_viewport.MaxDepth = 1.0f;
+
+		m_deviceContext->RSSetViewports(1u, &m_viewport);
 	}
 
 }

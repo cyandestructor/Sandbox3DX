@@ -23,8 +23,13 @@ namespace Jass {
 		ComPtr<ID3D11RenderTargetView> GetRenderTargetView() { return m_renderTargetView; }
 		ComPtr<ID3D11DepthStencilView> GetDepthStencilView() { return m_depthStencilView; }
 
+		D3D11_VIEWPORT GetViewport() const { return m_viewport; }
+		void SetViewport(D3D11_VIEWPORT viewport);
+
 	private:
 		static Scope<DirectX11Graphics> s_graphics;
+
+		D3D11_VIEWPORT m_viewport;
 
 		ComPtr<ID3D11Device> m_device;
 		ComPtr<IDXGISwapChain> m_swapChain;
@@ -35,6 +40,7 @@ namespace Jass {
 		void CreateDeviceAndSwapChain(HWND hWnd);
 		void CreateRenderTargetView();
 		void CreateDepthStencilView();
+		void CreateViewport();
 
 	};
 

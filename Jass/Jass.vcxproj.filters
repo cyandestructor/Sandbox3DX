@@ -1562,6 +1562,8 @@
     </ClInclude>
     <ClInclude Include="src\Platform\DirectX11\DirectX11VertexBuffer.h" />
     <ClInclude Include="src\Platform\DirectX11\DirectX11Shader.h" />
+    <ClInclude Include="src\Platform\DirectX11\DirectX11VertexArray.h" />
+    <ClInclude Include="src\Platform\DirectX11\DirectX11IndexBuffer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Jass\Camera\OrthographicCamera.cpp">
@@ -1704,5 +1706,7 @@
     </ClCompile>
     <ClCompile Include="src\Platform\DirectX11\DirectX11VertexBuffer.cpp" />
     <ClCompile Include="src\Platform\DirectX11\DirectX11Shader.cpp" />
+    <ClCompile Include="src\Platform\DirectX11\DirectX11VertexArray.cpp" />
+    <ClCompile Include="src\Platform\DirectX11\DirectX11IndexBuffer.cpp" />
   </ItemGroup>
 </Project>

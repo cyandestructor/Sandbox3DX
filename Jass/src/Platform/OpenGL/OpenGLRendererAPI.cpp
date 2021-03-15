@@ -54,7 +54,7 @@ namespace Jass {
 			mode = GL_ALWAYS;
 			break;
 		default:
-			JASS_ASSERT(false, "Unknown depth function");
+			JASS_CORE_ASSERT(false, "Unknown depth function");
 			break;
 		}
 
