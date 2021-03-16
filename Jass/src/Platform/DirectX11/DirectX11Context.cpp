@@ -18,7 +18,21 @@ namespace Jass {
 
 	void DirectX11Context::SwapBuffers()
 	{
-		DirectX11Graphics::Get().GetSwapChain()->Present(1u, 0u);
+		auto& graphics = DirectX11Graphics::Get();
+		if (graphics.IsVSync())
+			graphics.GetSwapChain()->Present(1u, 0u);
+		else
+			graphics.GetSwapChain()->Present(0u, 0u);
+	}
+
+	void DirectX11Context::SetVSync(bool enable)
+	{
+		DirectX11Graphics::Get().SetVSync(enable);
+	}
+
+	bool DirectX11Context::IsVSync() const
+	{
+		return DirectX11Graphics::Get().IsVSync();
 	}
 
 }

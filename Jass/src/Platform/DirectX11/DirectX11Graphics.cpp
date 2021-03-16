@@ -13,6 +13,7 @@ namespace Jass {
 		CreateViewport();
 		CreateRenderTargetView();
 		CreateDepthStencilView();
+		CreateRasterizerState();
 
 		m_deviceContext->OMSetRenderTargets(1, m_renderTargetView.GetAddressOf(), m_depthStencilView.Get());
 	}
@@ -54,11 +55,16 @@ namespace Jass {
 		scDesc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
 		scDesc.Flags = 0;
 
+		unsigned int creationFlags = D3D11_CREATE_DEVICE_BGRA_SUPPORT;
+#ifdef JASS_DEBUG
+		creationFlags |= D3D11_CREATE_DEVICE_DEBUG;
+#endif // JASS_DEBUG
+
 		D3D11CreateDeviceAndSwapChain(
 			nullptr,
 			D3D_DRIVER_TYPE_HARDWARE,
 			nullptr,
-			0,
+			creationFlags,
 			nullptr,
 			0,
 			D3D11_SDK_VERSION,
@@ -130,12 +136,25 @@ namespace Jass {
 
 		m_viewport.TopLeftX = 0.0f;
 		m_viewport.TopLeftY = 0.0f;
-		m_viewport.Width = width;
-		m_viewport.Height = height;
+		m_viewport.Width = (float)width;
+		m_viewport.Height = (float)height;
 		m_viewport.MinDepth = 0.0f;
 		m_viewport.MaxDepth = 1.0f;
 
 		m_deviceContext->RSSetViewports(1u, &m_viewport);
+	}
+
+	void DirectX11Graphics::CreateRasterizerState()
+	{
+		D3D11_RASTERIZER_DESC rDesc = {};
+		rDesc.FillMode = D3D11_FILL_SOLID;
+		rDesc.CullMode = D3D11_CULL_BACK;
+		rDesc.FrontCounterClockwise = true;
+
+		ComPtr<ID3D11RasterizerState> rasterizerState;
+		m_device->CreateRasterizerState(&rDesc, &rasterizerState);
+
+		m_deviceContext->RSSetState(rasterizerState.Get());
 	}
 
 }

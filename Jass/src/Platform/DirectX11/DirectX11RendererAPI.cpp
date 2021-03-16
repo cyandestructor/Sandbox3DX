@@ -72,10 +72,10 @@ namespace Jass {
 		auto& graphics = DirectX11Graphics::Get();
 
 		auto viewport = graphics.GetViewport();
-		viewport.TopLeftX = x;
-		viewport.TopLeftY = y;
-		viewport.Width = width;
-		viewport.Height = height;
+		viewport.TopLeftX = (float)x;
+		viewport.TopLeftY = (float)y;
+		viewport.Width = (float)width;
+		viewport.Height = (float)height;
 		
 		graphics.SetViewport(viewport);
 	}
@@ -159,7 +159,7 @@ namespace Jass {
 
 		for (const auto& vertexBuffer : vertexArray->GetVertexBuffers()) {
 			vertexBuffer->Bind();
-			deviceContext->DrawIndexed(count, 0u, 0u);
+			deviceContext->DrawIndexed(count, 0u, 0);
 		}
 	}
 

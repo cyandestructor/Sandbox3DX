@@ -9,8 +9,8 @@ DX11TestLayer::DX11TestLayer()
 
 void DX11TestLayer::OnAttach()
 {
-	//LoadShaders();
-	//CreateTriangle();
+	LoadShaders();
+	CreateTriangle();
 }
 
 void DX11TestLayer::OnDetach()
@@ -21,11 +21,13 @@ void DX11TestLayer::OnUpdate(Jass::Timestep ts)
 {
 	m_cameraController.OnUpdate(ts);
 
-	Jass::RenderCommand::SetClearColor({ 0.8f, 0.2f, 0.2f, 0.0f });
+	Jass::RenderCommand::SetClearColor({ 0.2f, 0.2f, 0.2f, 0.0f });
 	Jass::RenderCommand::Clear();
 
 	Jass::Renderer::BeginScene(m_cameraController.GetCamera());
 	
+	m_shaderLib.GetShader("Triangle")->Bind();
+	Jass::RenderCommand::DrawIndexed(m_triangle);
 	//Jass::Renderer::Submit(m_shaderLib.GetShader("Triangle"), m_triangle);
 
 	Jass::Renderer::EndScene();
@@ -33,8 +35,10 @@ void DX11TestLayer::OnUpdate(Jass::Timestep ts)
 
 void DX11TestLayer::OnImGuiRender()
 {
-	/*static bool open = true;
-	ImGui::ShowDemoWindow(&open);*/
+	static bool open = true;
+	if (open)
+		ImGui::ShowDemoWindow(&open);
+
 	ImGui::Begin("test");
 	ImGui::Text("Hola mundo desde DirectX 11 con ImGui y GLFW");
 	ImGui::End();
@@ -47,7 +51,7 @@ void DX11TestLayer::OnEvent(Jass::Event& e)
 
 void DX11TestLayer::LoadShaders()
 {
-	m_shaderLib.Load("assets/shaders/Triangle.glsl");
+	m_shaderLib.Load("Triangle", "assets/shaders/DirectX11/TriangleTest.hlsl");
 }
 
 void DX11TestLayer::CreateTriangle()
@@ -72,8 +76,8 @@ void DX11TestLayer::CreateTriangle()
 	auto vertexBuffer = Jass::VertexBuffer::Create({ positions,sizeof(positions),Jass::DataUsage::StaticDraw });
 
 	Jass::BufferLayout layout = {
-		{Jass::ShaderDataType::Float3, "position" },
-		{Jass::ShaderDataType::Float4, "v_color"}
+		{Jass::ShaderDataType::Float3, "a_position" },
+		{Jass::ShaderDataType::Float4, "a_color"}
 	};
 	vertexBuffer->SetLayout(layout);
 

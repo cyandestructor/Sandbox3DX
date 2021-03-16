@@ -26,8 +26,13 @@ namespace Jass {
 		D3D11_VIEWPORT GetViewport() const { return m_viewport; }
 		void SetViewport(D3D11_VIEWPORT viewport);
 
+		bool IsVSync() const { return m_vSync; }
+		void SetVSync(bool enable) { m_vSync = enable; }
+
 	private:
 		static Scope<DirectX11Graphics> s_graphics;
+
+		bool m_vSync = true;
 
 		D3D11_VIEWPORT m_viewport;
 
@@ -41,6 +46,7 @@ namespace Jass {
 		void CreateRenderTargetView();
 		void CreateDepthStencilView();
 		void CreateViewport();
+		void CreateRasterizerState();
 
 	};
 

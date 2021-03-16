@@ -14,9 +14,12 @@ namespace Jass {
 
 		virtual void Init() override;
 		virtual void SwapBuffers() override;
+		virtual void SetVSync(bool enable) override;
+		virtual bool IsVSync() const override { return m_isVSync; }
 
 	private:
 		GLFWwindow* m_windowHandler;
+		bool m_isVSync = true;
 
 	};
 

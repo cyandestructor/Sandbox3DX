@@ -10,6 +10,8 @@ namespace Jass {
 	public:
 		virtual void Init() = 0;
 		virtual void SwapBuffers() = 0;
+		virtual void SetVSync(bool enable) = 0;
+		virtual bool IsVSync() const = 0;
 
 	};
 

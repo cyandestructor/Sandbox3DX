@@ -12,6 +12,8 @@ namespace Jass {
 
 		virtual void Init() override;
 		virtual void SwapBuffers() override;
+		virtual void SetVSync(bool enable) override;
+		virtual bool IsVSync() const override;
 
 	private:
 		HWND m_windowHandler;

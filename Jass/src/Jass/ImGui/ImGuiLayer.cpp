@@ -41,7 +41,7 @@ namespace Jass {
 	
 	void ImGuiLayer::OnAttach()
 	{
-		ImGui_ImplWin32_EnableDpiAwareness();
+		//ImGui_ImplWin32_EnableDpiAwareness();
 		// Setup Dear ImGui context
 		IMGUI_CHECKVERSION();
 		ImGui::CreateContext();

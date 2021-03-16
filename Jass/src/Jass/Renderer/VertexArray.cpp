@@ -3,6 +3,7 @@
 
 #include "Renderer.h"
 #include "Platform/OpenGL/OpenGLVertexArray.h"
+#include "Platform/DirectX11/DirectX11VertexArray.h"
 
 namespace Jass {
 
@@ -15,6 +16,8 @@ namespace Jass {
 				return nullptr;
 			case RendererAPI::API::OpenGL:
 				return MakeRef<OpenGLVertexArray>();
+			case RendererAPI::API::DirectX11:
+				return MakeRef<DirectX11VertexArray>();
 		}
 
 		JASS_CORE_ASSERT(false, "Unknow Renderer API");

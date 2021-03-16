@@ -206,11 +206,11 @@ namespace Jass {
 	bool DirectX11Shader::CheckCompilation(HRESULT result, const ComPtr<ID3DBlob>& errorsBlob)
 	{
 		if (FAILED(result)) {
-			if (result == D3D11_ERROR_FILE_NOT_FOUND) {
+			if (result == D3D11_ERROR_FILE_NOT_FOUND || result == ERROR_FILE_NOT_FOUND) {
 				JASS_CORE_ASSERT(false, "The shader file was not found");
 			}
 			else {
-				JASS_CORE_ASSERT(errorsBlob->GetBufferPointer() != nullptr, FromBlob(errorsBlob));
+				JASS_CORE_ASSERT(errorsBlob != nullptr, FromBlob(errorsBlob));
 			}
 
 			return false;

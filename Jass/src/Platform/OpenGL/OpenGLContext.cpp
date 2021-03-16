@@ -42,4 +42,14 @@ namespace Jass {
 		glfwSwapBuffers(m_windowHandler);
 	}
 
+	void OpenGLContext::SetVSync(bool enable)
+	{
+		if (enable)
+			glfwSwapInterval(1);
+		else
+			glfwSwapInterval(0);
+
+		m_isVSync = enable;
+	}
+
 }

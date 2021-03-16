@@ -31,10 +31,7 @@ namespace Jass {
 
 	inline void WinWindow::SetVSync(bool enable)
 	{
-		if (enable)
-			glfwSwapInterval(1);
-		else
-			glfwSwapInterval(0);
+		m_context->SetVSync(enable);
 
 		m_windowData.VSync = enable;
 	}
@@ -60,10 +57,6 @@ namespace Jass {
 			s_glfwInitialized = true;
 
 		}
-
-#ifdef JASS_DEBUG
-		glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
-#endif // JASS_DEBUG
 
 		glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
 

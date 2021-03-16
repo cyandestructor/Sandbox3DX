@@ -3,6 +3,7 @@
 
 #include "Jass/Renderer/Renderer.h"
 #include "Platform/OpenGL/OpenGLShader.h"
+#include "Platform/DirectX11/DirectX11Shader.h"
 
 namespace Jass {
 
@@ -15,6 +16,8 @@ namespace Jass {
 				return nullptr;
 			case RendererAPI::API::OpenGL:
 				return MakeRef<OpenGLShader>(filepath);
+			case RendererAPI::API::DirectX11:
+				return MakeRef<DirectX11Shader>(filepath);
 		}
 
 		JASS_CORE_ASSERT(false, "Unknow Renderer API");
@@ -30,6 +33,8 @@ namespace Jass {
 				return nullptr;
 			case RendererAPI::API::OpenGL:
 				return MakeRef<OpenGLShader>(name, filepath);
+			case RendererAPI::API::DirectX11:
+				return MakeRef<DirectX11Shader>(name, filepath);
 		}
 
 		JASS_CORE_ASSERT(false, "Unknow Renderer API");
@@ -45,6 +50,8 @@ namespace Jass {
 				return nullptr;
 			case RendererAPI::API::OpenGL:
 				return MakeRef<OpenGLShader>(name, vertexShaderSrc, fragmentShaderSrc);
+			case RendererAPI::API::DirectX11:
+				return MakeRef<DirectX11Shader>(name, vertexShaderSrc, fragmentShaderSrc);
 		}
 
 		JASS_CORE_ASSERT(false, "Unknow Renderer API");
