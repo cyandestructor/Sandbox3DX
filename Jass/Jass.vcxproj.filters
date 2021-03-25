@@ -1573,7 +1573,6 @@
     <ClInclude Include="src\Platform\DirectX11\DynamicConstantBuffer\ElementRef.h" />
     <ClInclude Include="src\Platform\DirectX11\DynamicConstantBuffer\Buffer.h" />
     <ClInclude Include="src\Platform\DirectX11\DynamicConstantBuffer\LayoutCodex.h" />
-    <ClInclude Include="src\Platform\DirectX11\DynamicConstantBuffer\DCBTesting.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Jass\Camera\OrthographicCamera.cpp">
@@ -1726,6 +1725,5 @@
     <ClCompile Include="src\Platform\DirectX11\DynamicConstantBuffer\ElementRef.cpp" />
     <ClCompile Include="src\Platform\DirectX11\DynamicConstantBuffer\Buffer.cpp" />
     <ClCompile Include="src\Platform\DirectX11\DynamicConstantBuffer\LayoutCodex.cpp" />
-    <ClCompile Include="src\Platform\DirectX11\DynamicConstantBuffer\DCBTesting.cpp" />
   </ItemGroup>
 </Project>
