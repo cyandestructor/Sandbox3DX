@@ -22,8 +22,8 @@ namespace Dcb {
 		LayoutElement& Add(Type type, const std::string& name); // Add layout element to a struct
 
 		// Only for arrays
-		LayoutElement& GetArray();
-		const LayoutElement& GetArray() const;
+		LayoutElement& ArrayType();
+		const LayoutElement& ArrayType() const;
 		LayoutElement& Set(Type type, size_t size); // Set the type and size of an array
 
 		// Only after finalization

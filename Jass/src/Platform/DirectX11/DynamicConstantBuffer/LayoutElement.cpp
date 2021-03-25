@@ -83,16 +83,16 @@ namespace Dcb {
 		return *this;
 	}
 
-	LayoutElement& LayoutElement::GetArray()
+	LayoutElement& LayoutElement::ArrayType()
 	{
 		assert("Tried to get array from a non-array element" && m_type == Type::Array);
 
 		return *static_cast<ExtraData::Array&>(*m_extraData).LayoutElement;
 	}
 
-	const LayoutElement& LayoutElement::GetArray() const
+	const LayoutElement& LayoutElement::ArrayType() const
 	{
-		return const_cast<LayoutElement&>(*this).GetArray();
+		return const_cast<LayoutElement&>(*this).ArrayType();
 	}
 
 	LayoutElement& LayoutElement::Set(Type type, size_t size)

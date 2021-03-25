@@ -11,13 +11,13 @@ void TestDCB()
 		lay.Add(Dcb::Type::Float, "factor");
 		lay.Add(Dcb::Type::Array, "myArray");
 		lay["myArray"].Set(Dcb::Type::Struct, 4);
-		lay["myArray"].GetArray().Add(Dcb::Type::Float3, "normal");
-		lay["myArray"].GetArray().Add(Dcb::Type::Array, "intArray");
-		lay["myArray"].GetArray()["intArray"].Set(Dcb::Type::Float, 2);
-		lay["myArray"].GetArray().Add(Dcb::Type::Array, "sndArray");
-		lay["myArray"].GetArray()["sndArray"].Set(Dcb::Type::Array, 2);
-		lay["myArray"].GetArray()["sndArray"].GetArray().Set(Dcb::Type::Matrix4, 4);
-		lay["myArray"].GetArray().Add(Dcb::Type::Boolean, "booler");
+		lay["myArray"].ArrayType().Add(Dcb::Type::Float3, "normal");
+		lay["myArray"].ArrayType().Add(Dcb::Type::Array, "intArray");
+		lay["myArray"].ArrayType()["intArray"].Set(Dcb::Type::Float, 2);
+		lay["myArray"].ArrayType().Add(Dcb::Type::Array, "sndArray");
+		lay["myArray"].ArrayType()["sndArray"].Set(Dcb::Type::Array, 2);
+		lay["myArray"].ArrayType()["sndArray"].ArrayType().Set(Dcb::Type::Matrix4, 4);
+		lay["myArray"].ArrayType().Add(Dcb::Type::Boolean, "booler");
 
 		//lay.Add(Dcb::Type::Boolean, "myArray"); // Correctly throws an error (duplicate)
 		//lay.Add(Dcb::Type::Boolean, "1myArray"); // Correctly throws an error (invalid symbol name)
@@ -97,7 +97,7 @@ void TestDCB()
 		Dcb::RawLayout lay;
 		lay.Add(Dcb::Type::Array, "array");
 		lay["array"].Set(Dcb::Type::Array, 6);
-		lay["array"].GetArray().Set(Dcb::Type::Matrix4, 4);
+		lay["array"].ArrayType().Set(Dcb::Type::Matrix4, 4);
 
 		auto buf = Dcb::Buffer(std::move(lay));
 
@@ -108,8 +108,8 @@ void TestDCB()
 		Dcb::RawLayout lay;
 		lay.Add(Dcb::Type::Array, "array");
 		lay["array"].Set(Dcb::Type::Struct, 6);
-		lay["array"].GetArray().Add(Dcb::Type::Float2, "a");
-		lay["array"].GetArray().Add(Dcb::Type::Float3, "b");
+		lay["array"].ArrayType().Add(Dcb::Type::Float2, "a");
+		lay["array"].ArrayType().Add(Dcb::Type::Float3, "b");
 
 		auto buf = Dcb::Buffer(std::move(lay));
 
@@ -170,8 +170,8 @@ void TestDCB()
 		Dcb::RawLayout lay;
 		lay.Add(Dcb::Type::Array, "myArray");
 		lay["myArray"].Set(Dcb::Type::Struct, 10);
-		lay["myArray"].GetArray().Add(Dcb::Type::Float3, "x");
-		lay["myArray"].GetArray().Add(Dcb::Type::Float2, "y");
+		lay["myArray"].ArrayType().Add(Dcb::Type::Float3, "x");
+		lay["myArray"].ArrayType().Add(Dcb::Type::Float2, "y");
 
 		auto fixed = Dcb::LayoutCodex::Resolve(std::move(lay));
 
