@@ -1573,6 +1573,11 @@
     <ClInclude Include="src\Platform\DirectX11\DynamicConstantBuffer\ElementRef.h" />
     <ClInclude Include="src\Platform\DirectX11\DynamicConstantBuffer\Buffer.h" />
     <ClInclude Include="src\Platform\DirectX11\DynamicConstantBuffer\LayoutCodex.h" />
+    <ClInclude Include="src\Platform\DirectX11\ShaderReflection\ShaderDescription.h" />
+    <ClInclude Include="src\Platform\DirectX11\ShaderReflection\ShaderReflection.h" />
+    <ClInclude Include="src\Platform\DirectX11\ShaderReflection\ConstantBufferDescription.h" />
+    <ClInclude Include="src\Platform\DirectX11\ShaderReflection\VariableDescription.h" />
+    <ClInclude Include="src\Platform\DirectX11\ShaderReflection\TypeDescription.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Jass\Camera\OrthographicCamera.cpp">
@@ -1725,5 +1730,10 @@
     <ClCompile Include="src\Platform\DirectX11\DynamicConstantBuffer\ElementRef.cpp" />
     <ClCompile Include="src\Platform\DirectX11\DynamicConstantBuffer\Buffer.cpp" />
     <ClCompile Include="src\Platform\DirectX11\DynamicConstantBuffer\LayoutCodex.cpp" />
+    <ClCompile Include="src\Platform\DirectX11\ShaderReflection\ShaderReflection.cpp" />
+    <ClCompile Include="src\Platform\DirectX11\ShaderReflection\ShaderDescription.cpp" />
+    <ClCompile Include="src\Platform\DirectX11\ShaderReflection\ConstantBufferDescription.cpp" />
+    <ClCompile Include="src\Platform\DirectX11\ShaderReflection\VariableDescription.cpp" />
+    <ClCompile Include="src\Platform\DirectX11\ShaderReflection\TypeDescription.cpp" />
   </ItemGroup>
 </Project>

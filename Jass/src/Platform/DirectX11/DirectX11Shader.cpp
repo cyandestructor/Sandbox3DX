@@ -2,12 +2,22 @@
 #include "DirectX11Shader.h"
 
 #include "Jass/Utility/JassUtilities.h"
+#include "ShaderReflection/ShaderReflection.h"
 #include <filesystem>
 
 #include <d3dcompiler.h>
 #pragma comment(lib, "D3DCompiler.lib")
 
+
 namespace Jass {
+
+	static void ReflectShader(const ComPtr<ID3DBlob>& shaderData)
+	{
+		ShaderReflection shaderReflection;
+		shaderReflection.Reflect(shaderData->GetBufferPointer(), shaderData->GetBufferSize());
+
+		auto shaderDescription = shaderReflection.GetShaderDescription();
+	}
 
 	static std::string FromBlob(const ComPtr<ID3DBlob>& blob)
 	{
@@ -117,6 +127,8 @@ namespace Jass {
 				nullptr,
 				&m_vertexShader
 			);
+
+			ReflectShader(shaderBlob);
 		}
 
 		result = D3DCompileFromFile(
@@ -138,6 +150,8 @@ namespace Jass {
 				nullptr,
 				&m_pixelShader
 			);
+
+			ReflectShader(shaderBlob);
 		}
 	}
 

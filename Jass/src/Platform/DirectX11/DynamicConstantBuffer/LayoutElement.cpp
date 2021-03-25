@@ -137,10 +137,7 @@ namespace Dcb {
 
 	size_t LayoutElement::GetSizeInBytes() const
 	{
-		auto end = GetOffsetEnd();
-		auto begin = GetOffsetBegin();
-		auto result = end - begin;
-		return result;
+		return GetOffsetEnd() - GetOffsetBegin();
 	}
 
 	LayoutElement& LayoutElement::GetEmpty()
