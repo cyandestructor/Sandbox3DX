@@ -216,6 +216,7 @@
     <ClInclude Include="src\Platform\DirectX11\DirectX11VertexBuffer.h" />
     <ClInclude Include="src\Platform\DirectX11\DynamicConstantBuffer\Buffer.h" />
     <ClInclude Include="src\Platform\DirectX11\DynamicConstantBuffer\ConstElementRef.h" />
+    <ClInclude Include="src\Platform\DirectX11\DynamicConstantBuffer\DCBTesting.h" />
     <ClInclude Include="src\Platform\DirectX11\DynamicConstantBuffer\ElementRef.h" />
     <ClInclude Include="src\Platform\DirectX11\DynamicConstantBuffer\ElementTypes.h" />
     <ClInclude Include="src\Platform\DirectX11\DynamicConstantBuffer\FixedLayout.h" />
@@ -685,6 +686,7 @@
     <ClCompile Include="src\Platform\DirectX11\DirectX11VertexBuffer.cpp" />
     <ClCompile Include="src\Platform\DirectX11\DynamicConstantBuffer\Buffer.cpp" />
     <ClCompile Include="src\Platform\DirectX11\DynamicConstantBuffer\ConstElementRef.cpp" />
+    <ClCompile Include="src\Platform\DirectX11\DynamicConstantBuffer\DCBTesting.cpp" />
     <ClCompile Include="src\Platform\DirectX11\DynamicConstantBuffer\ElementRef.cpp" />
     <ClCompile Include="src\Platform\DirectX11\DynamicConstantBuffer\FixedLayout.cpp" />
     <ClCompile Include="src\Platform\DirectX11\DynamicConstantBuffer\Layout.cpp" />

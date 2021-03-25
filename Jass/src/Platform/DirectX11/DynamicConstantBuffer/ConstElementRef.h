@@ -31,7 +31,8 @@ namespace Dcb {
 
 		bool Exists() const;
 
-		ConstElementRef operator[](const std::string& key) const;
+		template<size_t size>
+		ConstElementRef operator[](const char(&key)[size]) const;
 		ConstElementRef operator[](size_t index) const;
 
 		Ptr operator&() const;
@@ -50,6 +51,12 @@ namespace Dcb {
 
 		ConstElementRef(const LayoutElement* layout, const char* bytes, size_t offset);
 	};
+
+	template<size_t size>
+	ConstElementRef ConstElementRef::operator[](const char(&key)[size]) const
+	{
+		return { &(*m_layout)[key], m_bytes, m_offset };
+	}
 
 }
 

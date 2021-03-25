@@ -115,7 +115,7 @@ namespace Dcb {
 	{
 		switch (m_type)
 		{
-		#define X(element) case Type::##element: return Map<Type::##element>::GpuSize;
+		#define X(element) case Type::##element: return *m_offset + Map<Type::##element>::GpuSize;
 		LEAF_ELEMENT_TYPES
 		#undef X
 		case Type::Struct:
@@ -137,7 +137,10 @@ namespace Dcb {
 
 	size_t LayoutElement::GetSizeInBytes() const
 	{
-		return GetOffsetEnd() - GetOffsetBegin();
+		auto end = GetOffsetEnd();
+		auto begin = GetOffsetBegin();
+		auto result = end - begin;
+		return result;
 	}
 
 	LayoutElement& LayoutElement::GetEmpty()

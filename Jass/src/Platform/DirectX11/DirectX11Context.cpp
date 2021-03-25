@@ -3,12 +3,15 @@
 
 #include "DirectX11Graphics.h"
 
+#include "DynamicConstantBuffer/DCBTesting.h"
+
 namespace Jass {
 
 	DirectX11Context::DirectX11Context(HWND windowHandler)
 		:m_windowHandler(windowHandler)
 	{
 		JASS_ASSERT(windowHandler, "The window handler is null");
+		TestDCB();
 	}
 
 	void DirectX11Context::Init()

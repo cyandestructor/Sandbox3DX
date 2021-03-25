@@ -8,11 +8,6 @@ namespace Dcb {
 		return m_layout->Exists();
 	}
 
-	ConstElementRef ConstElementRef::operator[](const std::string& key) const
-	{
-		return { &(*m_layout)[key], m_bytes, m_offset };
-	}
-
 	ConstElementRef ConstElementRef::operator[](size_t index) const
 	{
 		const auto indexingData = m_layout->CalculateIndexingOffset(m_offset, index);
