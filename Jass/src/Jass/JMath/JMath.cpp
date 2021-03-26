@@ -24,17 +24,17 @@ namespace Jass {
 
 	JMat4 PerspectiveFOV(float fov, float width, float height, float zNear, float zFar)
 	{
-		return glm::perspectiveFov(fov, width, height, zNear, zFar);
+		return glm::perspectiveFovLH_ZO(fov, width, height, zNear, zFar);
 	}
 
 	JMat4 LookAt(const JVec3& position, const JVec3& target, const JVec3& up)
 	{
-		return glm::lookAt(position, target, up);
+		return glm::lookAtLH(position, target, up);
 	}
 
 	JMat4 Orthographic(float left, float right, float bottom, float top, float zNear = -1.0f, float zFar = 1.0f)
 	{
-		return glm::ortho(left, right, bottom, top, zNear, zFar);
+		return glm::orthoLH_ZO(left, right, bottom, top, zNear, zFar);
 	}
 
 	float Radians(float degrees)
