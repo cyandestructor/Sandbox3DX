@@ -11,6 +11,8 @@ namespace Jass {
 		VariableDescription(ID3D11ShaderReflectionVariable* variableReflection);
 
 		std::string GetName() const { return m_description.Name; }
+		
+		const TypeDescription& GetTypeDescription() const { return m_typeDescription; }
 		ShaderVariableType GetType() const { return m_typeDescription.GetType(); }
 
 		bool IsArray() const { return m_typeDescription.IsArray(); }

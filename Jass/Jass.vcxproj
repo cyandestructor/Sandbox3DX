@@ -207,6 +207,7 @@
     <ClInclude Include="src\Jass\Renderer\VertexBuffer.h" />
     <ClInclude Include="src\Jass\Scene\Scene.h" />
     <ClInclude Include="src\Jass\Utility\JassUtilities.h" />
+    <ClInclude Include="src\Platform\DirectX11\DirectX11ConstantBufferEx.h" />
     <ClInclude Include="src\Platform\DirectX11\DirectX11Context.h" />
     <ClInclude Include="src\Platform\DirectX11\DirectX11Graphics.h" />
     <ClInclude Include="src\Platform\DirectX11\DirectX11IndexBuffer.h" />
@@ -681,6 +682,7 @@
     <ClCompile Include="src\Jass\Renderer\VertexBuffer.cpp" />
     <ClCompile Include="src\Jass\Scene\Scene.cpp" />
     <ClCompile Include="src\Jass\Utility\JassUtilities.cpp" />
+    <ClCompile Include="src\Platform\DirectX11\DirectX11ConstantBufferEx.cpp" />
     <ClCompile Include="src\Platform\DirectX11\DirectX11Context.cpp" />
     <ClCompile Include="src\Platform\DirectX11\DirectX11Graphics.cpp" />
     <ClCompile Include="src\Platform\DirectX11\DirectX11IndexBuffer.cpp" />

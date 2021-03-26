@@ -11,6 +11,8 @@ namespace Dcb {
 	public:
 		RawLayout();
 
+		LayoutElement& GetRoot() { return *m_root; }
+
 		LayoutElement& operator[](const std::string& key);
 
 		LayoutElement& Add(Type type, const std::string& name);

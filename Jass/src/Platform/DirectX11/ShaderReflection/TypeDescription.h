@@ -35,6 +35,7 @@ namespace Jass {
 		unsigned int GetElementsCount() const { return m_typeDescription.Elements; }
 
 		const std::vector<TypeDescription>& GetMembers() const { return m_members; }
+		const std::string& GetMemberName() const { return m_memberName; }
 
 		ShaderVariableType GetType() const { return m_type; }
 
@@ -43,7 +44,14 @@ namespace Jass {
 		D3D11_SHADER_TYPE_DESC m_typeDescription = {};
 		ShaderVariableType m_type = ShaderVariableType::Null;
 
+		std::string m_memberName;
 		std::vector<TypeDescription> m_members;
+		
+		TypeDescription(ID3D11ShaderReflectionType* typeReflection, const std::string& name)
+			:m_memberName(name)
+		{
+			Set(typeReflection);
+		}
 
 		void GetMembers(ID3D11ShaderReflectionType* typeReflection, const D3D11_SHADER_TYPE_DESC& typeDescription);
 	};

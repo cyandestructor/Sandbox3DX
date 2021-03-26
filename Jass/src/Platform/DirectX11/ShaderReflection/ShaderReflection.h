@@ -8,6 +8,9 @@ namespace Jass {
 	class ShaderReflection
 	{
 	public:
+		ShaderReflection() = default;
+		ShaderReflection(const void* shaderData, size_t dataSize) { Reflect(shaderData, dataSize); }
+		
 		void Reflect(const void* shaderData, size_t dataSize);
 
 		ShaderDescription GetShaderDescription() const;

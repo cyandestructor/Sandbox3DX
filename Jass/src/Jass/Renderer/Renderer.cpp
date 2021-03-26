@@ -32,9 +32,9 @@ namespace Jass {
 		const JMat4& transformation)
 	{
 		shader->Bind();
-		// Temporary
-		std::dynamic_pointer_cast<OpenGLShader>(shader)->UploadUniformMat4("u_viewProjection", sceneData->ViewProjectionMatrix);
-		std::dynamic_pointer_cast<OpenGLShader>(shader)->UploadUniformMat4("u_transformation", transformation);
+		shader->SetMat4("u_viewProjection", sceneData->ViewProjectionMatrix);
+		shader->SetMat4("u_transformation", transformation);
+		
 		RenderCommand::DrawIndexed(vertexArray);
 	}
 

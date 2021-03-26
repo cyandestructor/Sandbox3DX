@@ -11,12 +11,100 @@
 
 namespace Jass {
 
-	static void ReflectShader(const ComPtr<ID3DBlob>& shaderData)
+	static Dcb::Type ToElementType(ShaderVariableType type)
 	{
-		ShaderReflection shaderReflection;
-		shaderReflection.Reflect(shaderData->GetBufferPointer(), shaderData->GetBufferSize());
+		Dcb::Type elementType = Dcb::Type::Empty;
 
+		switch (type)
+		{
+		case ShaderVariableType::Float:
+			elementType = Dcb::Type::Float;
+			break;
+		case ShaderVariableType::Float2:
+			elementType = Dcb::Type::Float2;
+			break;
+		case ShaderVariableType::Float3:
+			elementType = Dcb::Type::Float3;
+			break;
+		case ShaderVariableType::Float4:
+			elementType = Dcb::Type::Float4;
+			break;
+		case ShaderVariableType::Matrix3:
+			elementType = Dcb::Type::Matrix3;
+			break;
+		case ShaderVariableType::Matrix4:
+			elementType = Dcb::Type::Matrix4;
+			break;
+		case ShaderVariableType::Struct:
+			elementType = Dcb::Type::Struct;
+			break;
+		case ShaderVariableType::Bool:
+			elementType = Dcb::Type::Boolean;
+			break;
+		case ShaderVariableType::Int:
+			elementType = Dcb::Type::Integer;
+			break;
+		default:
+			JASS_CORE_ASSERT(false, "Unsupported variable type");
+			break;
+		}
+
+		return elementType;
+	}
+
+	static void AddLayoutElement(Dcb::LayoutElement& layout, const std::string& name, const TypeDescription& variableType)
+	{
+		auto type = variableType.GetType();
+		
+		if (variableType.IsArray()) {
+			layout.Add(Dcb::Type::Array, name);
+			layout[name].Set(ToElementType(type), variableType.GetElementsCount());
+
+			if (type == ShaderVariableType::Struct) {
+				Dcb::LayoutElement& arrayType = layout[name].ArrayType();
+				for (const auto& member : variableType.GetMembers()) {
+					AddLayoutElement(arrayType, member.GetMemberName(), member);
+				}
+			}
+		}
+		else if (type == ShaderVariableType::Struct) {
+			layout.Add(Dcb::Type::Struct, name);
+			Dcb::LayoutElement& structElement = layout[name];
+			for (const auto& member : variableType.GetMembers()) {
+				AddLayoutElement(structElement, member.GetMemberName(), member);
+			}
+		}
+		else {
+			layout.Add(ToElementType(type), name);
+		}
+	}
+
+	static Dcb::RawLayout CreateConstantBufferLayout(const ConstantBufferDescription& bufferDescription)
+	{
+		Dcb::RawLayout layout;
+
+		for (const auto& variable : bufferDescription.GetVariables())
+		{
+			AddLayoutElement(layout.GetRoot(), variable.GetName(), variable.GetTypeDescription());
+		}
+
+		return layout;
+	}
+
+	static void GetConstantBuffersFromShader(const ComPtr<ID3DBlob>& shaderData,
+		std::vector<DirectX11ConstantBufferEx>& constantBuffers,
+		Destination destinationShader)
+	{
+		ShaderReflection shaderReflection(shaderData->GetBufferPointer(), shaderData->GetBufferSize());
 		auto shaderDescription = shaderReflection.GetShaderDescription();
+
+		constantBuffers.reserve(shaderDescription.GetConstantBuffers().size());
+		for (const auto& buffer : shaderDescription.GetConstantBuffers()) {
+			constantBuffers.emplace_back(
+				std::move(CreateConstantBufferLayout(buffer)),
+				destinationShader,
+				buffer.GetSlot());
+		}
 	}
 
 	static std::string FromBlob(const ComPtr<ID3DBlob>& blob)
@@ -59,6 +147,14 @@ namespace Jass {
 		auto& graphics = DirectX11Graphics::Get();
 		auto deviceContext = graphics.GetDeviceContext();
 
+		for (const auto& constantBuffer : m_vsConstantBuffers) {
+			constantBuffer.Bind();
+		}
+
+		for (const auto& constantBuffer : m_psConstantBuffers) {
+			constantBuffer.Bind();
+		}
+
 		deviceContext->VSSetShader(m_vertexShader.Get(), nullptr, 0u);
 		deviceContext->PSSetShader(m_pixelShader.Get(), nullptr, 0u);
 	}
@@ -69,6 +165,7 @@ namespace Jass {
 
 	void DirectX11Shader::SetInt(const std::string& name, int value)
 	{
+		UpdateBufferElement<int>(name, value);
 	}
 
 	void DirectX11Shader::SetIntArray(const std::string& name, int* value, unsigned int count)
@@ -77,18 +174,22 @@ namespace Jass {
 
 	void DirectX11Shader::SetFloat(const std::string& name, float value)
 	{
+		UpdateBufferElement<float>(name, value);
 	}
 
 	void DirectX11Shader::SetFloat3(const std::string& name, const JVec3& vector)
 	{
+		UpdateBufferElement<Jass::JVec3>(name, vector);
 	}
 
 	void DirectX11Shader::SetFloat4(const std::string& name, const JVec4& vector)
 	{
+		UpdateBufferElement<Jass::JVec4>(name, vector);
 	}
 
 	void DirectX11Shader::SetMat4(const std::string& name, const JMat4& vector)
 	{
+		UpdateBufferElement<Jass::JMat4>(name, vector);
 	}
 
 	void DirectX11Shader::CompileFromFile(const std::string& filepath)
@@ -128,7 +229,7 @@ namespace Jass {
 				&m_vertexShader
 			);
 
-			ReflectShader(shaderBlob);
+			GetConstantBuffersFromShader(shaderBlob, m_vsConstantBuffers, Destination::VertexShader);
 		}
 
 		result = D3DCompileFromFile(
@@ -151,7 +252,7 @@ namespace Jass {
 				&m_pixelShader
 			);
 
-			ReflectShader(shaderBlob);
+			GetConstantBuffersFromShader(shaderBlob, m_psConstantBuffers, Destination::PixelShader);
 		}
 	}
 
@@ -191,6 +292,8 @@ namespace Jass {
 				nullptr,
 				&m_vertexShader
 			);
+			
+			GetConstantBuffersFromShader(shaderBlob, m_vsConstantBuffers, Destination::VertexShader);
 		}
 
 		result = D3DCompile(
@@ -214,6 +317,8 @@ namespace Jass {
 				nullptr,
 				&m_pixelShader
 			);
+			
+			GetConstantBuffersFromShader(shaderBlob, m_psConstantBuffers, Destination::PixelShader);
 		}
 	}
 

@@ -27,8 +27,8 @@ void DX11TestLayer::OnUpdate(Jass::Timestep ts)
 	Jass::Renderer::BeginScene(m_cameraController.GetCamera());
 	
 	m_shaderLib.GetShader("Triangle")->Bind();
-	Jass::RenderCommand::DrawIndexed(m_triangle);
-	//Jass::Renderer::Submit(m_shaderLib.GetShader("Triangle"), m_triangle);
+	//Jass::RenderCommand::DrawIndexed(m_triangle);
+	Jass::Renderer::Submit(m_shaderLib.GetShader("Triangle"), m_triangle);
 
 	Jass::Renderer::EndScene();
 }

@@ -76,7 +76,8 @@ namespace Jass {
 		m_members.reserve(memberCount);
 
 		for (unsigned int i = 0; i < memberCount; i++) {
-			m_members.emplace_back(typeReflection->GetMemberTypeByIndex(i));
+			std::string memberName = typeReflection->GetMemberTypeName(i);
+			m_members.emplace_back(TypeDescription(typeReflection->GetMemberTypeByIndex(i), memberName));
 		}
 	}
 

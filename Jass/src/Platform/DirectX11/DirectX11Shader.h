@@ -2,7 +2,7 @@
 #define DIRECTX11_SHADER_H
 
 #include "Jass/Renderer/Shaders/Shader.h"
-#include "DirectX11Graphics.h"
+#include "DirectX11ConstantBufferEx.h"
 
 namespace Jass {
 
@@ -31,13 +31,44 @@ namespace Jass {
 		ComPtr<ID3D11PixelShader> m_pixelShader;
 		std::string m_name;
 
+		std::vector<DirectX11ConstantBufferEx> m_vsConstantBuffers;
+		std::vector<DirectX11ConstantBufferEx> m_psConstantBuffers;
+
 		void CompileFromFile(const std::string& filepath);
 		void Compile(const std::string& vs, const std::string& ps);
 
 		bool CheckCompilation(HRESULT result, const ComPtr<ID3DBlob>& errorsBlob);
 
+		template <typename T>
+		void UpdateBufferElement(const std::string& name, const T& value);
 	};
 
+	template<typename T>
+	void DirectX11Shader::UpdateBufferElement(const std::string& name, const T& value)
+	{
+		bool found = false;
+		for (auto& constantBuffer : m_vsConstantBuffers)
+		{
+			auto& buffer = constantBuffer.GetBuffer();
+			if (auto ref = buffer[name]; ref.Exists()) {
+				ref = value;
+				found = true;
+			}
+		}
+
+		for (auto& constantBuffer : m_psConstantBuffers)
+		{
+			auto& buffer = constantBuffer.GetBuffer();
+			if (auto ref = buffer[name]; ref.Exists()) {
+				ref = value;
+				found = true;
+			}
+		}
+
+		if (!found) {
+			JASS_CORE_WARN("{0} uniform was not found", name);
+		}
+	}
 }
 
 #endif // !DIRECTX11_SHADER_H

@@ -1578,6 +1578,7 @@
     <ClInclude Include="src\Platform\DirectX11\ShaderReflection\ConstantBufferDescription.h" />
     <ClInclude Include="src\Platform\DirectX11\ShaderReflection\VariableDescription.h" />
     <ClInclude Include="src\Platform\DirectX11\ShaderReflection\TypeDescription.h" />
+    <ClInclude Include="src\Platform\DirectX11\DirectX11ConstantBufferEx.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Jass\Camera\OrthographicCamera.cpp">
@@ -1735,5 +1736,6 @@
     <ClCompile Include="src\Platform\DirectX11\ShaderReflection\ConstantBufferDescription.cpp" />
     <ClCompile Include="src\Platform\DirectX11\ShaderReflection\VariableDescription.cpp" />
     <ClCompile Include="src\Platform\DirectX11\ShaderReflection\TypeDescription.cpp" />
+    <ClCompile Include="src\Platform\DirectX11\DirectX11ConstantBufferEx.cpp" />
   </ItemGroup>
 </Project>
