@@ -53,7 +53,10 @@ void DX11TestLayer::OnEvent(Jass::Event& e)
 void DX11TestLayer::LoadTextures()
 {
 	//m_texture = Jass::Texture2D::Create("assets/textures/Terrain/dirt.jpg");
-	m_texture = Jass::Texture2D::Create("assets/textures/Appricot.png");
+	//m_texture = Jass::Texture2D::Create("assets/textures/Appricot.png");
+	m_texture = Jass::Texture2D::Create(1, 1);
+	uint32_t texData = 0xffffffff; // RGBA (1.0, 1.0, 1.0, 1.0)
+	m_texture->SetData(&texData, sizeof(uint32_t));
 }
 
 void DX11TestLayer::LoadShaders()
