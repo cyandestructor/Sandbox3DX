@@ -20,8 +20,11 @@ private:
 
 	Jass::ShaderLibrary m_shaderLib;
 
-	Jass::Ref<Jass::VertexArray> m_triangle;
+	Jass::Ref<Jass::VertexArray> m_square;
 
+	Jass::Ref<Jass::Texture2D> m_texture;
+
+	void LoadTextures();
 	void LoadShaders();
 	void CreateTriangle();
 

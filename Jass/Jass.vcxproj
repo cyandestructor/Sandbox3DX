@@ -229,6 +229,7 @@
     <ClInclude Include="src\Platform\DirectX11\ShaderReflection\ShaderReflection.h" />
     <ClInclude Include="src\Platform\DirectX11\ShaderReflection\TypeDescription.h" />
     <ClInclude Include="src\Platform\DirectX11\ShaderReflection\VariableDescription.h" />
+    <ClInclude Include="src\Platform\DirectX11\Textures\DirectX11Texture2D.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLFramebuffer.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLIndexBuffer.h" />
@@ -703,6 +704,7 @@
     <ClCompile Include="src\Platform\DirectX11\ShaderReflection\ShaderReflection.cpp" />
     <ClCompile Include="src\Platform\DirectX11\ShaderReflection\TypeDescription.cpp" />
     <ClCompile Include="src\Platform\DirectX11\ShaderReflection\VariableDescription.cpp" />
+    <ClCompile Include="src\Platform\DirectX11\Textures\DirectX11Texture2D.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLFramebuffer.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLIndexBuffer.cpp" />
