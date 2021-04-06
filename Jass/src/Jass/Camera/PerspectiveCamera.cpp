@@ -34,6 +34,11 @@ namespace Jass {
 	{
 		m_view = LookAt(m_settings.Position, target, m_upVector);
 
+		m_view[0].z *= -1.0f;
+		m_view[1].z *= -1.0f;
+		m_view[2].z *= -1.0f;
+		m_view[3].z *= -1.0f;
+
 		m_viewProjection = m_projection * m_view;
 	}
 
@@ -62,6 +67,11 @@ namespace Jass {
 		m_view = Rotate(m_view, Radians(m_settings.Rotation.x), JVec3(-1.0f, 0.0f, 0.0f));
 		m_view = Rotate(m_view, Radians(m_settings.Rotation.y), JVec3(0.0f, -1.0f, 0.0f));
 		m_view = Rotate(m_view, Radians(m_settings.Rotation.z), JVec3(0.0f, 0.0f, -1.0f));
+
+		m_view[0].z *= -1.0f;
+		m_view[1].z *= -1.0f;
+		m_view[2].z *= -1.0f;
+		m_view[3].z *= -1.0f;
 
 		m_viewProjection = m_projection * m_view;
 	}

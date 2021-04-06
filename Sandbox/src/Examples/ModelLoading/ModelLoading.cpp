@@ -74,7 +74,7 @@ void ModelLoading::OnEvent(Jass::Event& e)
 void ModelLoading::LoadShaders()
 {
 	// In this way, you can load a shader. The first argument is an optional name
-	m_shaderLib.Load("ModelMaterial", "assets/shaders/NormalsMaterial.glsl");
+	m_shaderLib.Load("ModelMaterial", "assets/shaders/DirectX11/NormalsMaterial.hlsl");
 	// NormalsMaterial.glsl is a shader that supports Ambient, Diffuse and Specular Light
 }
 

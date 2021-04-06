@@ -84,7 +84,7 @@ void Transformations::OnEvent(Jass::Event& e)
 
 void Transformations::LoadShaders()
 {
-	m_shaderLib.Load("ModelMaterial", "assets/shaders/NormalsMaterial.glsl");
+	m_shaderLib.Load("ModelMaterial", "assets/shaders/DirectX11/NormalsMaterial.hlsl");
 }
 
 void Transformations::LoadModels()

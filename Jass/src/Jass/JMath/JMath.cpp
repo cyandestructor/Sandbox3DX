@@ -29,7 +29,7 @@ namespace Jass {
 
 	JMat4 LookAt(const JVec3& position, const JVec3& target, const JVec3& up)
 	{
-		return glm::lookAtLH(position, target, up);
+		return glm::lookAtRH(position, target, up);
 	}
 
 	JMat4 Orthographic(float left, float right, float bottom, float top, float zNear = -1.0f, float zFar = 1.0f)
