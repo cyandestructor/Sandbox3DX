@@ -31,7 +31,6 @@ VS_OUTPUT vsMain(VS_INPUT input)
 	VS_OUTPUT output;
 
 	float4 worldPosition = mul(u_transformation, float4(input.Position, 1.0f));
-	//worldPosition.z *= -1;
 
 	output.Position = mul(u_viewProjection, worldPosition);
 	output.TexCoord = input.TexCoord;
@@ -71,9 +70,53 @@ cbuffer PS_CB : register(b0)
 
 SamplerState texSampler : register(s0);
 Texture2D diffuseTex : register(t0);
+Texture2D normalTex : register(t1);
+Texture2D specularTex : register(t2);
+
+float4 AmbientLight(float4 lightColor, float reductionFactor);
+float4 DiffuseLight(float3 toLightVector, float3 normal, float4 lightColor, float reductionFactor);
+float4 SpecularLight(float3 lightDirection, float3 normal, float3 toCameraVector, float4 lightColor,
+	float reflectivity, float shineDamper, float reductionFactor);
 
 float4 psMain(PS_INPUT input) : SV_Target
 {
+	float3 texNormal = normalTex.Sample(texSampler, input.TexCoord).rgb;
+	texNormal = normalize(texNormal * 2.0f - 1.0f);
+
+	float4 texSpecular = specularTex.Sample(texSampler, input.TexCoord);
+	float specularReduction = texSpecular.r; // It can be any rgb component
+
 	float4 diffuseColor = diffuseTex.Sample(texSampler, input.TexCoord) * u_color;
-	return diffuseColor;
+
+	float4 ambientLight = AmbientLight(u_lightColor, u_ambientReduction);
+	float4 diffuseLight = DiffuseLight(input.ToLightVector, texNormal, u_lightColor, u_diffuseReduction);
+	float4 specularLight = SpecularLight(input.LightDirection, texNormal, input.ToCameraVector, u_lightColor,
+		u_reflectivity, u_shineDamper, specularReduction);
+
+	return diffuseColor * (ambientLight + diffuseLight + specularLight);
+}
+
+float4 AmbientLight(float4 lightColor, float reductionFactor)
+{
+	return lightColor * reductionFactor; // ambient light
+}
+
+float4 DiffuseLight(float3 toLightVector, float3 normal, float4 lightColor, float reductionFactor)
+{
+	float dotProduct = dot(normal, toLightVector);
+	float brightness = max(dotProduct, 0.001f);
+	return lightColor * brightness * reductionFactor; // diffuse light
+}
+
+float4 SpecularLight(float3 lightDirection, float3 normal, float3 toCameraVector, float4 lightColor,
+	float reflectivity, float shineDamper, float reductionFactor)
+{
+	float3 reflectedLightDirection = reflect(lightDirection, normal);
+
+	float specularFactor = dot(reflectedLightDirection, toCameraVector);
+	specularFactor = max(specularFactor, 0.001f);
+
+	float dampedFactor = pow(specularFactor, shineDamper);
+
+	return lightColor * dampedFactor * reflectivity * reductionFactor; // specular light
 }

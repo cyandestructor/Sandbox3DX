@@ -329,7 +329,7 @@ namespace Jass {
 				JASS_CORE_ASSERT(false, "The shader file was not found");
 			}
 			else {
-				JASS_CORE_ASSERT(errorsBlob->GetBufferPointer() != nullptr, FromBlob(errorsBlob).c_str());
+				JASS_CORE_ASSERT(errorsBlob->GetBufferPointer() == nullptr, FromBlob(errorsBlob).c_str());
 			}
 
 			return false;
