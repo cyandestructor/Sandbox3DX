@@ -96,7 +96,7 @@ void TerrainLoading::OnEvent(Jass::Event& e)
 
 void TerrainLoading::LoadShaders()
 {
-	m_shaderLib.Load("TerrainMaterial", "assets/shaders/TerrainShader.glsl");
+	m_shaderLib.Load("TerrainMaterial", "assets/shaders/DirectX11/TerrainShader.hlsl");
 }
 
 void TerrainLoading::LoadTerrainTextures()
