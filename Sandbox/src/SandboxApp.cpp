@@ -3,8 +3,8 @@
 
 //#include "DX11TestLayer.h"
 //#include "Examples/ModelLoading/ModelLoading.h"
-//#include "Examples/Transformations/Transformations.h"
-#include "Examples/TerrainLoading/TerrainLoading.h"
+#include "Examples/Transformations/Transformations.h"
+//#include "Examples/TerrainLoading/TerrainLoading.h"
 //#include "Examples/SkyboxLoading/SkyboxLoading.h"
 //#include "Examples/BillboardLoading/BillboardLoading.h"
 //#include "Examples/WaterLoading/WaterLoading.h"
@@ -35,8 +35,8 @@ public:
 	Sandbox() {
 		//PushLayer(new DX11TestLayer);
 		//PushLayer(new ModelLoading);
-		//PushLayer(new Transformations);
-		PushLayer(new TerrainLoading);
+		PushLayer(new Transformations);
+		//PushLayer(new TerrainLoading);
 		//PushLayer(new SkyboxLoading);
 		//PushLayer(new BillboardLoading);
 		//PushLayer(new WaterLoading);

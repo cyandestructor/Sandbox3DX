@@ -35,6 +35,12 @@ VS_OUTPUT vsMain(VS_INPUT input)
 	output.Position = mul(u_viewProjection, worldPosition);
 	output.TexCoord = input.TexCoord;
 
+	// This is because these vectors are given in RH coordinate system
+	// The multiplication change them to LH for DirectX 11
+	input.Tangent.z *= -1;
+	input.Bitangent.z *= -1;
+	input.Normal.z *= -1;
+
 	// TBN Matrix
 	float3 T = normalize(mul(u_normalMatrix, float4(input.Tangent, 0.0f)).xyz);
 	float3 B = normalize(mul(u_normalMatrix, float4(input.Bitangent, 0.0f)).xyz);
