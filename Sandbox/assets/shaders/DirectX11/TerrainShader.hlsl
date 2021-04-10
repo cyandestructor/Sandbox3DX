@@ -37,6 +37,12 @@ VS_OUTPUT vsMain(VS_INPUT input)
 	input.Bitangent.z *= -1;
 	input.Normal.z *= -1;
 
+	float3 lightPosition = u_lightPosition;
+	lightPosition.z *= -1;
+
+	float3 worldPositionRH = worldPosition.xyz;
+	worldPositionRH.z *= -1;
+
 	// TBN Matrix
 	float3 T = normalize(mul(u_transformation, float4(input.Tangent, 0.0f)).xyz);
 	float3 B = normalize(mul(u_transformation, float4(input.Bitangent, 0.0f)).xyz);
@@ -44,7 +50,7 @@ VS_OUTPUT vsMain(VS_INPUT input)
 	float3x3 TBN = transpose(float3x3(T, B, N));
 
 	// Convert to tangent space
-	output.ToLightVector = mul(TBN, normalize(u_lightPosition - worldPosition.xyz));
+	output.ToLightVector = mul(normalize(lightPosition - worldPositionRH), TBN);
 	output.LightDirection = -output.ToLightVector;
 
 	return output;
