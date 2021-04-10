@@ -5,6 +5,25 @@
 
 namespace Jass {
 
+	ComPtr<ID3D11SamplerState> DirectX11Texture2D::s_samplerState = nullptr;
+
+	bool DirectX11Texture2D::s_samplerStateBound = false;
+
+	void DirectX11Texture2D::InitSamplerState()
+	{
+		if (s_samplerState == nullptr)
+		{
+			D3D11_SAMPLER_DESC sDesc = {};
+			sDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+			sDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+			sDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+			sDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+
+			auto device = DirectX11Graphics::Get().GetDevice();
+			device->CreateSamplerState(&sDesc, &s_samplerState);
+		}
+	}
+
 	DirectX11Texture2D::DirectX11Texture2D(unsigned int width, unsigned int height)
 		:m_width(width), m_height(height)
 	{
@@ -25,12 +44,7 @@ namespace Jass {
 			m_width = (unsigned int)width;
 			m_height = (unsigned int)height;
 
-			TextureInfo texInfo = {};
-			texInfo.Data = data;
-			texInfo.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-			texInfo.BPP = 4u;
-
-			InitTexture(texInfo);
+			InitTexture(data);
 			InitSamplerState();
 
 			stbi_image_free(data);
@@ -44,7 +58,14 @@ namespace Jass {
 	{
 		auto deviceContext = DirectX11Graphics::Get().GetDeviceContext();
 		deviceContext->PSSetShaderResources(slot, 1u, m_shaderResourceView.GetAddressOf());
-		deviceContext->PSSetSamplers(slot, 1u, m_samplerState.GetAddressOf());
+		
+		JASS_CORE_ASSERT(s_samplerState != nullptr, "The sampler state is nullptr");
+		deviceContext->PSSetSamplers(0u, 1u, s_samplerState.GetAddressOf());
+		// There is only one sampler state for every texture, that should be bound to the slot 0
+		if (!s_samplerStateBound) {
+			deviceContext->PSSetSamplers(0u, 1u, s_samplerState.GetAddressOf());
+			s_samplerStateBound = true;
+		}
 	}
 
 	void DirectX11Texture2D::SetData(const void* data, unsigned int size)
@@ -52,12 +73,7 @@ namespace Jass {
 		JASS_CORE_ASSERT(size == m_width * m_height * 4u,
 			"Data size do not match with the texture properties");
 
-		TextureInfo texInfo = {};
-		texInfo.Data = data;
-		texInfo.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-		texInfo.BPP = 4u;
-
-		InitTexture(texInfo);
+		InitTexture(data);
 		InitSamplerState();
 	}
 
@@ -67,14 +83,14 @@ namespace Jass {
 		return this->m_shaderResourceView.Get() == otherTexture.m_shaderResourceView.Get();
 	}
 
-	void DirectX11Texture2D::InitTexture(const TextureInfo& texInfo)
+	void DirectX11Texture2D::InitTexture(const void* texData)
 	{
 		D3D11_TEXTURE2D_DESC tDesc = {};
 		tDesc.Width = m_width;
 		tDesc.Height = m_height;
 		tDesc.MipLevels = 1u;
 		tDesc.ArraySize = 1u;
-		tDesc.Format = texInfo.Format;
+		tDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
 		tDesc.SampleDesc.Count = 1u;
 		tDesc.SampleDesc.Quality = 0u;
 		tDesc.Usage = D3D11_USAGE_DEFAULT;
@@ -83,8 +99,8 @@ namespace Jass {
 		tDesc.MiscFlags = 0u;
 
 		D3D11_SUBRESOURCE_DATA sd = {};
-		sd.pSysMem = texInfo.Data;
-		sd.SysMemPitch = m_width * texInfo.BPP;
+		sd.pSysMem = texData;
+		sd.SysMemPitch = m_width * 4u; // 4u -> RGBA channels
 
 		ComPtr<ID3D11Texture2D> texture;
 
@@ -98,18 +114,6 @@ namespace Jass {
 		srvDesc.Texture2D.MostDetailedMip = 0u;
 
 		device->CreateShaderResourceView(texture.Get(), &srvDesc, &m_shaderResourceView);
-	}
-
-	void DirectX11Texture2D::InitSamplerState()
-	{
-		D3D11_SAMPLER_DESC sDesc = {};
-		sDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
-		sDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
-		sDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
-		sDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
-
-		auto device = DirectX11Graphics::Get().GetDevice();
-		device->CreateSamplerState(&sDesc, &m_samplerState);
 	}
 
 }

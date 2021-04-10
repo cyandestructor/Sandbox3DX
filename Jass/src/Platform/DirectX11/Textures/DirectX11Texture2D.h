@@ -25,22 +25,18 @@ namespace Jass {
 		virtual bool IsEqual(const ITexture& other) const override;
 
 	private:
+		static ComPtr<ID3D11SamplerState> s_samplerState;
+		static bool s_samplerStateBound;
+
+		static void InitSamplerState();
+
 		std::string m_filepath;
 		unsigned int m_width = 0;
 		unsigned int m_height = 0;
 
 		ComPtr<ID3D11ShaderResourceView> m_shaderResourceView;
-		ComPtr<ID3D11SamplerState> m_samplerState;
 
-		struct TextureInfo {
-			const void* Data;
-			DXGI_FORMAT Format;
-			unsigned int BPP;
-		};
-
-		void InitTexture(const TextureInfo& texInfo);
-		void InitSamplerState();
-
+		void InitTexture(const void* texData);
 	};
 
 }
