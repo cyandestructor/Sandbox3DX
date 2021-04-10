@@ -79,8 +79,8 @@ void SkyboxLoading::OnEvent(Jass::Event& e)
 
 void SkyboxLoading::LoadShaders()
 {
-	m_shaderLib.Load("TerrainMaterial", "assets/shaders/TerrainShader.glsl");
-	m_shaderLib.Load("SkyboxShader", "assets/shaders/SkyboxShader.glsl");
+	m_shaderLib.Load("TerrainMaterial", "assets/shaders/DirectX11/TerrainShader.hlsl");
+	m_shaderLib.Load("SkyboxShader", "assets/shaders/DirectX11/SkyboxShader.hlsl");
 }
 
 void SkyboxLoading::LoadTerrainTextures()

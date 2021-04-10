@@ -3,6 +3,7 @@
 
 #include "Jass/Renderer/Renderer.h"
 #include "Platform/OpenGL/Textures/OpenGLTexture3D.h"
+#include "Platform/DirectX11/Textures/DirectX11Texture3D.h"
 
 namespace Jass {
 
@@ -15,6 +16,8 @@ namespace Jass {
 			return nullptr;
 		case RendererAPI::API::OpenGL:
 			return MakeRef<OpenGLTexture3D>(filenames);
+		case RendererAPI::API::DirectX11:
+			return MakeRef<DirectX11Texture3D>(filenames);
 		}
 
 		JASS_CORE_ASSERT(false, "Unknow Renderer API");
