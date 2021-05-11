@@ -3,6 +3,7 @@
 
 #include "Renderer.h"
 #include "Platform/OpenGL/OpenGLFramebuffer.h"
+#include "Platform/DirectX11/DirectX11Framebuffer.h"
 
 namespace Jass {
 
@@ -15,6 +16,8 @@ namespace Jass {
 				return nullptr;
 			case RendererAPI::API::OpenGL:
 				return MakeRef<OpenGLFramebuffer>(config);
+			case RendererAPI::API::DirectX11:
+				return MakeRef<DirectX11Framebuffer>(config);
 		}
 
 		JASS_CORE_ASSERT(false, "Unknow Renderer API");

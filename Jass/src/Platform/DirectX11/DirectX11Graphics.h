@@ -20,8 +20,11 @@ namespace Jass {
 		ComPtr<ID3D11Device> GetDevice() { return m_device; }
 		ComPtr<IDXGISwapChain> GetSwapChain() { return m_swapChain; }
 		ComPtr<ID3D11DeviceContext> GetDeviceContext() { return m_deviceContext; }
+		
 		ComPtr<ID3D11RenderTargetView> GetRenderTargetView() { return m_renderTargetView; }
 		ComPtr<ID3D11DepthStencilView> GetDepthStencilView() { return m_depthStencilView; }
+		void SetRenderTargetAndDepthStencilViews(ComPtr<ID3D11RenderTargetView> rtv,
+			ComPtr<ID3D11DepthStencilView> dsv);
 
 		D3D11_VIEWPORT GetViewport() const { return m_viewport; }
 		void SetViewport(D3D11_VIEWPORT viewport);

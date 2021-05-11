@@ -1581,6 +1581,7 @@
     <ClInclude Include="src\Platform\DirectX11\DirectX11ConstantBufferEx.h" />
     <ClInclude Include="src\Platform\DirectX11\Textures\DirectX11Texture2D.h" />
     <ClInclude Include="src\Platform\DirectX11\Textures\DirectX11Texture3D.h" />
+    <ClInclude Include="src\Platform\DirectX11\DirectX11Framebuffer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Jass\Camera\OrthographicCamera.cpp">
@@ -1741,5 +1742,6 @@
     <ClCompile Include="src\Platform\DirectX11\DirectX11ConstantBufferEx.cpp" />
     <ClCompile Include="src\Platform\DirectX11\Textures\DirectX11Texture2D.cpp" />
     <ClCompile Include="src\Platform\DirectX11\Textures\DirectX11Texture3D.cpp" />
+    <ClCompile Include="src\Platform\DirectX11\DirectX11Framebuffer.cpp" />
   </ItemGroup>
 </Project>

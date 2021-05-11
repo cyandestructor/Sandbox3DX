@@ -83,15 +83,23 @@ namespace Jass {
 	void DirectX11RendererAPI::SetClearColor(const JVec4& color)
 	{
 		auto& graphics = DirectX11Graphics::Get();
-		auto rtv = graphics.GetRenderTargetView();
-		graphics.GetDeviceContext()->ClearRenderTargetView(rtv.Get(), GetPtr(color));
+		auto deviceContext = graphics.GetDeviceContext();
+
+		ComPtr<ID3D11RenderTargetView> rtv;
+		deviceContext->OMGetRenderTargets(1u, &rtv, nullptr);
+
+		deviceContext->ClearRenderTargetView(rtv.Get(), GetPtr(color));
 	}
 
 	void DirectX11RendererAPI::Clear()
 	{
 		auto& graphics = DirectX11Graphics::Get();
-		auto dsv = graphics.GetDepthStencilView();
-		graphics.GetDeviceContext()->ClearDepthStencilView(dsv.Get(), D3D11_CLEAR_DEPTH, 1.0f, 0u);
+		auto deviceContext = graphics.GetDeviceContext();
+		
+		ComPtr<ID3D11DepthStencilView> dsv;
+		deviceContext->OMGetRenderTargets(1u, nullptr, &dsv);
+
+		deviceContext->ClearDepthStencilView(dsv.Get(), D3D11_CLEAR_DEPTH, 1.0f, 0u);
 	}
 
 	void DirectX11RendererAPI::EnableClipDistance(bool enable, unsigned int index)

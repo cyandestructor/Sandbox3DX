@@ -95,15 +95,17 @@ void WaterLoading::OnUpdate(Jass::Timestep ts)
 	UpdateWater(ts);
 	UpdateModel();
 
-	Jass::RenderCommand::SetClearColor({ 0.2f, 0.2f, 0.2f, 0.0f });
-	Jass::RenderCommand::Clear();
+	
 
 	// Before rendering the whole scene, first it is needed to prepare the water reflection and refraction
 	PrepareWaterReflection(ts);
-	PrepareWaterRefraction(ts);
+	//PrepareWaterRefraction(ts);
+
+	Jass::RenderCommand::SetClearColor({ 0.2f, 0.2f, 0.2f, 0.0f });
+	Jass::RenderCommand::Clear();
 
 	Jass::Renderer::BeginScene(m_playerController.GetCamera());
-
+	
 	// In this we want to separate the render of the complete scene in another method for a clean code
 	RenderScene(ts);
 
@@ -121,12 +123,12 @@ void WaterLoading::OnEvent(Jass::Event& e)
 
 void WaterLoading::LoadShaders()
 {
-	m_shaderLib.Load("TerrainMaterial", "assets/shaders/TerrainShader.glsl");
-	m_shaderLib.Load("SkyboxShader", "assets/shaders/SkyboxShader.glsl");
-	m_shaderLib.Load("NormalsMaterial", "assets/shaders/NormalsMaterial.glsl");
+	m_shaderLib.Load("TerrainMaterial", "assets/shaders/DirectX11/TerrainShader.hlsl");
+	m_shaderLib.Load("SkyboxShader", "assets/shaders/DirectX11/SkyboxShader.hlsl");
+	m_shaderLib.Load("NormalsMaterial", "assets/shaders/DirectX11/NormalsMaterial.hlsl");
 
 	// To render the water, use the Water shader
-	m_shaderLib.Load("WaterMaterial", "assets/shaders/WaterShader.glsl");
+	m_shaderLib.Load("WaterMaterial", "assets/shaders/DirectX11/WaterShader.hlsl");
 }
 
 void WaterLoading::LoadModels()
@@ -188,7 +190,7 @@ void WaterLoading::RenderScene(Jass::Timestep ts)
 	m_water.Render(m_shaderLib.GetShader("WaterMaterial"), m_light, m_playerController.GetCamera());
 
 	// ALWAYS RENDER THE SKYBOX LAST!
-	m_skybox.Render(m_shaderLib.GetShader("SkyboxShader"), m_playerController.GetCamera());
+	//m_skybox.Render(m_shaderLib.GetShader("SkyboxShader"), m_playerController.GetCamera());
 }
 
 void WaterLoading::UpdateTerrain()
@@ -271,7 +273,7 @@ void WaterLoading::PrepareWaterReflection(Jass::Timestep ts)
 	Jass::RenderCommand::EnableClipDistance(false);
 	
 	// Remember to render the skybox last
-	m_skybox.Render(m_shaderLib.GetShader("SkyboxShader"), m_playerController.GetCamera());
+	//m_skybox.Render(m_shaderLib.GetShader("SkyboxShader"), m_playerController.GetCamera());
 	
 	m_water.EndReflection();
 
@@ -302,7 +304,7 @@ void WaterLoading::PrepareWaterRefraction(Jass::Timestep ts)
 	Jass::RenderCommand::EnableClipDistance(false);
 
 	// Remember to render the skybox last
-	m_skybox.Render(m_shaderLib.GetShader("SkyboxShader"), m_playerController.GetCamera());
+	//m_skybox.Render(m_shaderLib.GetShader("SkyboxShader"), m_playerController.GetCamera());
 	
 	m_water.EndRefraction();
 

@@ -30,6 +30,11 @@ namespace Jass {
 		return *s_graphics;
 	}
 
+	void DirectX11Graphics::SetRenderTargetAndDepthStencilViews(ComPtr<ID3D11RenderTargetView> rtv, ComPtr<ID3D11DepthStencilView> dsv)
+	{
+		m_deviceContext->OMSetRenderTargets(1, rtv.GetAddressOf(), dsv.Get());
+	}
+
 	void DirectX11Graphics::SetViewport(D3D11_VIEWPORT viewport)
 	{
 		m_viewport = viewport;
