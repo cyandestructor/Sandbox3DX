@@ -86,7 +86,7 @@ void BillboardLoading::OnEvent(Jass::Event& e)
 
 void BillboardLoading::LoadShaders()
 {
-	m_shaderLib.Load("TerrainMaterial", "assets/shaders/TerrainShader.glsl");
+	m_shaderLib.Load("TerrainMaterial", "assets/shaders/DirectX11/TerrainShader.hlsl");
 	/*
 		For the billboards there are two types:
 
@@ -96,8 +96,8 @@ void BillboardLoading::LoadShaders()
 		For those two types, there are two different shaders.
 		The shaders also support ambient, diffuse and specular light.
 	*/
-	m_shaderLib.Load("SphericalBillboard", "assets/shaders/SphericalBillboardShader.glsl");
-	m_shaderLib.Load("CylindricalBillboard", "assets/shaders/CylindricalBillboardShader.glsl");
+	m_shaderLib.Load("SphericalBillboard", "assets/shaders/DirectX11/SphericalBillboardShader.hlsl");
+	m_shaderLib.Load("CylindricalBillboard", "assets/shaders/DirectX11/CylindricalBillboardShader.hlsl");
 }
 
 void BillboardLoading::LoadTerrainTextures()
