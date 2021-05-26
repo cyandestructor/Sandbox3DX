@@ -37,7 +37,7 @@ cbuffer PS_CB : register(b0)
 };
 
 SamplerState texSampler : register(s1);
-TextureCube Textures[2];
+TextureCube Textures[3];
 
 float4 GetTexture3DColor(int index, float3 texCoords);
 
@@ -56,6 +56,9 @@ float4 GetTexture3DColor(int index, float3 texCoords)
 	}
 	else if (index == 1) {
 		return Textures[1].Sample(texSampler, texCoords);
+	}
+	else if (index == 2) {
+		return Textures[2].Sample(texSampler, texCoords);
 	}
 
 	return float4(1.0f, 1.0f, 1.0f, 1.0f);

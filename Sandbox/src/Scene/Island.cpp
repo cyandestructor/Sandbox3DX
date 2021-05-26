@@ -29,6 +29,7 @@ void Island::OnAttach()
 	LoadModels();
 	LoadShaders();
 	LoadTerrainTextures();
+	LoadSkyboxTextures();
 }
 
 void Island::OnDetach()
@@ -43,6 +44,8 @@ void Island::OnImGuiRender()
 
 void Island::OnUpdate(Jass::Timestep ts)
 {
+	UpdateDayCycle(ts);
+	
 	if (!m_isFlyMode)
 		FixCameraToTerrain();
 
@@ -72,12 +75,90 @@ void Island::RenderScene(Jass::Timestep ts)
 	}
 
 	m_terrain.Render(m_shaderLib.GetShader("TerrainMaterial"), m_light);
+	m_skybox.Render(m_shaderLib.GetShader("SkyboxShader"), m_playerController.GetCamera());
+}
+
+void Island::UpdateDayCycle(Jass::Timestep ts)
+{
+	unsigned int day = 0, morning = 1, night = 2;
+
+	m_skyRotation += 1.0f * ts;
+	m_skyRotation = m_skyRotation >= 360 ? 0.0f : m_skyRotation;
+	m_skybox.SetRotation(m_skyRotation);
+
+	float daySpeed = 5.0f;
+	daySpeed *= m_lightAngle >= 360 ? 3.0f : 1.0f;
+
+	m_lightAngle += daySpeed * ts;
+	m_lightAngle = m_lightAngle >= 360 ? 0.0f : m_lightAngle;
+
+	if (m_lightAngle > 160.0f) {
+		// Set the light color to a darker one (night)
+		m_totalColor -= 0.1f * ts;
+		m_totalColor = std::max(m_totalColor, 0.3f);
+
+		if (m_lightAngle < 340) {
+			// Transition of the skybox from day to night
+			m_blendNight += 0.1f * ts;
+			m_blendNight = std::min(m_blendNight, 1.0f);
+			m_skybox.BlendTextures(day, night, m_blendNight);
+		}
+	}
+	else {
+		// Set the light color to a lighter one (morning/day)
+		m_totalColor += 0.1f * ts;
+		m_totalColor = std::min(m_totalColor, 0.9f);
+
+		if (m_lightAngle <= 80.0f) {
+			// Transition of the skybox from morning to day
+			m_blendMorning -= 0.1f * ts;
+			m_blendMorning = std::max(m_blendMorning, 0.0f);
+			m_skybox.BlendTextures(day, morning, m_blendMorning);
+		}
+	}
+
+	if (m_lightAngle >= 320.0f) {
+		// Transition of the skybox from night to morning
+		m_blendNight -= 0.2f * ts;
+		m_blendMorning += 0.2f * ts;
+		m_blendNight = std::max(m_blendNight, 0.0f);
+		m_blendMorning = std::min(m_blendMorning, 1.0f);
+		m_skybox.BlendTextures(morning, night, m_blendNight);
+	}
+
+	m_light.SetColor({ m_totalColor, m_totalColor, m_totalColor, 1.0f });
+
+	m_lightDirection.x = cos(Jass::Radians(m_lightAngle)) * 500.0f;
+	m_lightDirection.y = sin(Jass::Radians(m_lightAngle)) * 500.0f;
+	m_lightDirection.z = 0.0f;
+
+	m_light.SetPosition(m_lightDirection);
+
+	float lightIntensity = std::max(sin(Jass::Radians(m_lightAngle)), 0.01f);
+	m_ambientReduction = m_diffuseReduction = lightIntensity;
+
+	//m_testBillboard.GetMaterial().SetAmbientReduction(m_ambientReduction);
+	//m_testBillboard.GetMaterial().SetDiffuseReduction(m_ambientReduction);
+
+	/*for (auto& billboard : m_sceneBillboards) {
+		billboard.GetMaterial().SetAmbientReduction(m_ambientReduction);
+		billboard.GetMaterial().SetDiffuseReduction(m_ambientReduction);
+	}*/
+
+	m_terrain.SetAmbientReduction(m_ambientReduction);
+	m_terrain.SetDiffuseReduction(m_diffuseReduction);
+
+	for (auto& model : m_sceneModels) {
+		model.GetMaterial().SetAmbientReduction(m_ambientReduction);
+		model.GetMaterial().SetDiffuseReduction(m_ambientReduction);
+	}
 }
 
 void Island::LoadShaders()
 {
 	m_shaderLib.Load("TerrainMaterial", "assets/shaders/DirectX11/TerrainShader.hlsl");
 	m_shaderLib.Load("ModelMaterial", "assets/shaders/DirectX11/NormalsMaterial.hlsl");
+	m_shaderLib.Load("SkyboxShader", "assets/shaders/DirectX11/SkyboxShader.hlsl");
 }
 
 void Island::LoadTerrainTextures()
@@ -92,6 +173,43 @@ void Island::LoadTerrainTextures()
 	m_terrain.AddTexture("assets/textures/IslandTerrain/sand_5/normal.jpg", "u_normalTexG", 6);
 	m_terrain.AddTexture("assets/textures/IslandTerrain/sand_4/color.jpg", "u_diffuseTexB", 7);
 	m_terrain.AddTexture("assets/textures/IslandTerrain/sand_4/normal.jpg", "u_normalTexB", 8);
+}
+
+void Island::LoadSkyboxTextures()
+{
+	std::vector<std::string> textures
+	{
+		"assets/textures/Sandbox3D/Skybox/Day/right.png",
+		"assets/textures/Sandbox3D/Skybox/Day/left.png",
+		"assets/textures/Sandbox3D/Skybox/Day/top.png",
+		"assets/textures/Sandbox3D/Skybox/Day/bottom.png",
+		"assets/textures/Sandbox3D/Skybox/Day/front.png",
+		"assets/textures/Sandbox3D/Skybox/Day/back.png"
+	};
+
+	std::vector<std::string> texturesMorning
+	{
+		"assets/textures/Sandbox3D/Skybox/Morning/right.png",
+		"assets/textures/Sandbox3D/Skybox/Morning/left.png",
+		"assets/textures/Sandbox3D/Skybox/Morning/top.png",
+		"assets/textures/Sandbox3D/Skybox/Morning/bottom.png",
+		"assets/textures/Sandbox3D/Skybox/Morning/front.png",
+		"assets/textures/Sandbox3D/Skybox/Morning/back.png"
+	};
+
+	std::vector<std::string> texturesNight
+	{
+		"assets/textures/Sandbox3D/Skybox/Night/right.png",
+		"assets/textures/Sandbox3D/Skybox/Night/left.png",
+		"assets/textures/Sandbox3D/Skybox/Night/top.png",
+		"assets/textures/Sandbox3D/Skybox/Night/bottom.png",
+		"assets/textures/Sandbox3D/Skybox/Night/front.png",
+		"assets/textures/Sandbox3D/Skybox/Night/back.png"
+	};
+
+	m_skybox.SetTexture(textures);
+	m_skybox.AddTexture(texturesMorning, "u_morning", 1);
+	m_skybox.AddTexture(texturesNight, "u_night", 2);
 }
 
 void Island::LoadModels()
