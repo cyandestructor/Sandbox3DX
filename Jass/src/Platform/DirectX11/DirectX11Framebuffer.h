@@ -27,18 +27,15 @@ namespace Jass {
 
 	private:
 		ComPtr<ID3D11RenderTargetView> m_renderTargetView;
-		ComPtr<ID3D11DepthStencilView> m_depthStencilView;
 
 		ComPtr<ID3D11ShaderResourceView> m_colorShaderResourceView;
-		ComPtr<ID3D11ShaderResourceView> m_depthShaderResourceView;
 		
 		mutable unsigned int m_slot = -1;
 		unsigned int m_colorAttachment = 0;
 		FramebufferConfig m_fbConfig;
 
 		ComPtr<ID3D11Texture2D> InitRenderTargetView();
-		ComPtr<ID3D11Texture2D> InitDepthStencilView();
-		void InitShaderResourceViews(ComPtr<ID3D11Texture2D> rtTexture, ComPtr<ID3D11Texture2D>dsTexture);
+		void InitShaderResourceViews(ComPtr<ID3D11Texture2D> rtTexture);
 	};
 
 }

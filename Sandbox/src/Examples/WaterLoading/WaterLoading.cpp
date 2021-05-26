@@ -99,7 +99,7 @@ void WaterLoading::OnUpdate(Jass::Timestep ts)
 
 	// Before rendering the whole scene, first it is needed to prepare the water reflection and refraction
 	PrepareWaterReflection(ts);
-	//PrepareWaterRefraction(ts);
+	PrepareWaterRefraction(ts);
 
 	Jass::RenderCommand::SetClearColor({ 0.2f, 0.2f, 0.2f, 0.0f });
 	Jass::RenderCommand::Clear();

@@ -40,6 +40,7 @@ namespace Jass {
 		{
 			ComPtr<ID3D11ShaderResourceView> nullSrv = nullptr;
 			deviceContext->PSSetShaderResources(m_slot, 1u, nullSrv.GetAddressOf());
+			m_slot = -1;
 		}
 
 		deviceContext->OMSetRenderTargets(1, m_renderTargetView.GetAddressOf(), dsv.Get());
@@ -60,8 +61,7 @@ namespace Jass {
 	void DirectX11Framebuffer::Invalidate()
 	{
 		auto rtTexture = InitRenderTargetView();
-		auto dsTexture = InitDepthStencilView();
-		InitShaderResourceViews(rtTexture, dsTexture);
+		InitShaderResourceViews(rtTexture);
 	}
 
 	ComPtr<ID3D11Texture2D> DirectX11Framebuffer::InitRenderTargetView()
@@ -99,40 +99,7 @@ namespace Jass {
 		return renderTargetTexture;
 	}
 
-	ComPtr<ID3D11Texture2D> DirectX11Framebuffer::InitDepthStencilView()
-	{
-		HRESULT result;
-
-		auto device = DirectX11Graphics::Get().GetDevice();
-
-		ComPtr<ID3D11Texture2D> depthStencilTexture;
-
-		D3D11_TEXTURE2D_DESC dtDesc = {};
-		dtDesc.Width = m_fbConfig.Width;
-		dtDesc.Height = m_fbConfig.Height;
-		dtDesc.MipLevels = 1u;
-		dtDesc.ArraySize = 1u;
-		dtDesc.Format = DXGI_FORMAT_D32_FLOAT;
-		dtDesc.SampleDesc.Count = 1u;
-		dtDesc.SampleDesc.Quality = 0u;
-		dtDesc.Usage = D3D11_USAGE_DEFAULT;
-		dtDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
-
-		result = device->CreateTexture2D(&dtDesc, nullptr, &depthStencilTexture);
-		JASS_CORE_ASSERT(SUCCEEDED(result), "Operation failed");
-
-		D3D11_DEPTH_STENCIL_VIEW_DESC dsvDesc = {};
-		dsvDesc.Format = dtDesc.Format;
-		dsvDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
-		dsvDesc.Texture2D.MipSlice = 0u;
-
-		result = device->CreateDepthStencilView(depthStencilTexture.Get(), &dsvDesc, &m_depthStencilView);
-		JASS_CORE_ASSERT(SUCCEEDED(result), "Operation failed");
-
-		return depthStencilTexture;
-	}
-
-	void DirectX11Framebuffer::InitShaderResourceViews(ComPtr<ID3D11Texture2D> rtTexture, ComPtr<ID3D11Texture2D> dsTexture)
+	void DirectX11Framebuffer::InitShaderResourceViews(ComPtr<ID3D11Texture2D> rtTexture)
 	{
 		HRESULT result;
 
