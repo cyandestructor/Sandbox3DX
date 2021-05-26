@@ -7,8 +7,9 @@
 //#include "Examples/TerrainLoading/TerrainLoading.h"
 //#include "Examples/SkyboxLoading/SkyboxLoading.h"
 //#include "Examples/BillboardLoading/BillboardLoading.h"
-#include "Examples/WaterLoading/WaterLoading.h"
+//#include "Examples/WaterLoading/WaterLoading.h"
 //#include "Examples/SpecularMaps/SpecularMaps.h"
+#include "Scene/Island.h"
 //#include "Sandbox3D/Sandbox3D.h"
 
 /*
@@ -39,7 +40,7 @@ public:
 		//PushLayer(new TerrainLoading);
 		//PushLayer(new SkyboxLoading);
 		//PushLayer(new BillboardLoading);
-		PushLayer(new WaterLoading);
+		PushLayer(new Island);
 		//PushLayer(new SpecularMaps);
 		//PushLayer(new Sandbox3D);
 	}
