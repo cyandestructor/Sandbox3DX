@@ -43,7 +43,7 @@ void Material::Prepare(Jass::Ref<Jass::Shader>& shader, const Light& light) cons
 	else
 		m_whiteTexture->Bind(0);
 
-	shader->SetInt("u_diffuseTex", 0);
+	//shader->SetInt("u_diffuseTex", 0);
 
 	shader->SetFloat4("u_color", m_color);
 
@@ -52,12 +52,12 @@ void Material::Prepare(Jass::Ref<Jass::Shader>& shader, const Light& light) cons
 	else
 		m_neutralNormalTexture->Bind(1);
 
-	shader->SetInt("u_normalTex", 1);
+	//shader->SetInt("u_normalTex", 1);
 
 	if (m_specularTexture)
 		m_specularTexture->Bind(2);
 	else
 		m_whiteTexture->Bind(2);
 
-	shader->SetInt("u_specularTex", 2);
+	//shader->SetInt("u_specularTex", 2);
 }

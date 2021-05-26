@@ -115,14 +115,14 @@ void Terrain::Render(Jass::Ref<Jass::Shader>& shader, const Light& light, const 
 
 	shader->SetFloat("u_repeatFactor", m_uvRepeat);
 	
-	shader->SetFloat4("u_clipPlane", clipPlane);
+	//shader->SetFloat4("u_clipPlane", clipPlane);
 
 	for (const auto& texture : m_terrainTextures)
 	{
 		if (texture.Texture)
 		{
 			texture.Texture->Bind(texture.Slot);
-			shader->SetInt(texture.UniformName, texture.Slot);
+			//shader->SetInt(texture.UniformName, texture.Slot);
 		}
 	}
 

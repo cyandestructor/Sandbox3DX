@@ -4,6 +4,7 @@
 #include <Jass.h>
 
 #include "../Sandbox3D/Terrain/Terrain.h"
+#include "../Sandbox3D/Model/Model.h"
 #include "../Sandbox3D/Player/PlayerController.h"
 
 class Island : public Jass::Layer {
@@ -32,20 +33,17 @@ private:
 
 	Terrain m_terrain;
 
-	float m_terrainUVRepeat;
-	float m_ambientReduction;
-	float m_diffuseReduction;
-
-	Jass::JVec3 m_terrainPosition;
+	std::vector<Model> m_sceneModels;
 
 	Light m_light;
 
 	Jass::ShaderLibrary m_shaderLib;
 
+	void RenderScene(Jass::Timestep ts);
+
 	void LoadShaders();
 	void LoadTerrainTextures();
-
-	void UpdateTerrain();
+	void LoadModels();
 
 	void FixCameraToTerrain();
 

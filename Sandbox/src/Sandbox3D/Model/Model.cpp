@@ -50,7 +50,7 @@ void Model::Render(Jass::Ref<Jass::Shader>& shader, const Light& light, const Ja
 	shader->Bind();
 	Jass::JMat4 normalMatrix = Jass::Transpose(Jass::Inverse(m_transformation));
 	shader->SetMat4("u_normalMatrix", normalMatrix);
-	shader->SetFloat4("u_clipPlane", clipPlane);
+	//shader->SetFloat4("u_clipPlane", clipPlane);
 	Jass::Renderer::Submit(shader, m_mesh.GetVertexArray(), m_mesh.GetRenderMode(), m_transformation);
 }
 
