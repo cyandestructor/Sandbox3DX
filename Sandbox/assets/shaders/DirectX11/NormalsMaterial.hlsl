@@ -108,7 +108,11 @@ float4 psMain(PS_INPUT input) : SV_Target
 	float4 specularLight = SpecularLight(input.LightDirection, texNormal, input.ToCameraVector, u_lightColor,
 		u_reflectivity, u_shineDamper, specularReduction);
 
-	return diffuseColor * (ambientLight + diffuseLight + specularLight);
+	float4 finalColor = diffuseColor * (ambientLight + diffuseLight + specularLight);
+
+	clip(finalColor.a < 0.3f ? -1 : 1);
+
+	return finalColor;
 }
 
 float4 AmbientLight(float4 lightColor, float reductionFactor)

@@ -22,6 +22,11 @@ namespace Jass {
 		{
 			s_rendererAPI->SetClearColor(color);
 		}
+
+		inline static void SetCullMode(CullMode mode)
+		{
+			s_rendererAPI->SetCullMode(mode);
+		}
 		
 		inline static void EnableClipDistance(bool enable, unsigned int index = 0) {
 			s_rendererAPI->EnableClipDistance(enable, index);

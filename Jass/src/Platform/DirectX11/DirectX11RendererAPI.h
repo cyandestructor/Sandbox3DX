@@ -15,6 +15,8 @@ namespace Jass {
 		virtual void SetClearColor(const JVec4& color) override;
 		virtual void Clear() override;
 
+		virtual void SetCullMode(CullMode mode) override;
+
 		virtual void EnableClipDistance(bool enable, unsigned int index = 0) override;
 
 		virtual void EnableDepthMask(bool enable) override;

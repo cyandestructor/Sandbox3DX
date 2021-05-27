@@ -30,11 +30,16 @@ public:
 
 	Material& GetMaterial() { return m_material; }
 
+	void SetCullBackFace(bool enable) { m_cullBackface = enable; }
+	bool IsCullBackFace() const { return m_cullBackface; }
+
 	void Render(Jass::Ref<Jass::Shader>& shader, const Light& light, const Jass::JVec4& clipPlane = Jass::JVec4(0.0f)) const;
 
 private:
 	Mesh m_mesh;
 	Material m_material;
+
+	bool m_cullBackface = true;
 
 	Jass::JVec3 m_position = Jass::JVec3(0.0f);
 	Jass::JMat4 m_rotation = Jass::JMat4(1.0f);

@@ -63,6 +63,23 @@ namespace Jass {
 		return mode;
 	}
 
+	static D3D11_CULL_MODE ToDirectXCullMode(CullMode cullMode)
+	{
+		switch (cullMode)
+		{
+		case CullMode::None:
+			return D3D11_CULL_NONE;
+		case CullMode::Front:
+			return D3D11_CULL_FRONT;
+		case CullMode::Back:
+			return D3D11_CULL_BACK;
+		default:
+			JASS_CORE_ASSERT(false, "Unknown depth function");
+		}
+
+		return D3D11_CULL_NONE;
+	}
+
 	void DirectX11RendererAPI::Init()
 	{
 	}
@@ -100,6 +117,26 @@ namespace Jass {
 		deviceContext->OMGetRenderTargets(1u, nullptr, &dsv);
 
 		deviceContext->ClearDepthStencilView(dsv.Get(), D3D11_CLEAR_DEPTH, 1.0f, 0u);
+	}
+
+	void DirectX11RendererAPI::SetCullMode(CullMode mode)
+	{
+		auto& graphics = DirectX11Graphics::Get();
+		auto device = graphics.GetDevice();
+		auto deviceContext = graphics.GetDeviceContext();
+
+		ComPtr<ID3D11RasterizerState> rs;
+		deviceContext->RSGetState(&rs);
+
+		D3D11_RASTERIZER_DESC rd = {};
+		rs->GetDesc(&rd);
+
+		rd.CullMode = ToDirectXCullMode(mode);
+
+		ComPtr<ID3D11RasterizerState> newRs;
+		device->CreateRasterizerState(&rd, &newRs);
+
+		deviceContext->RSSetState(newRs.Get());
 	}
 
 	void DirectX11RendererAPI::EnableClipDistance(bool enable, unsigned int index)

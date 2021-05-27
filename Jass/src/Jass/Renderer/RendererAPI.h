@@ -16,6 +16,11 @@ namespace Jass {
 		Never, Less, Equal, LessEqual, NotEqual, Greater, GreaterEqual, Always
 	};
 
+	enum class CullMode
+	{
+		None, Front, Back
+	};
+
 	class JASS_API RendererAPI {
 
 	public:
@@ -30,6 +35,8 @@ namespace Jass {
 
 		virtual void SetClearColor(const JVec4& color) = 0;
 		virtual void Clear() = 0;
+
+		virtual void SetCullMode(CullMode mode) = 0;
 
 		virtual void EnableClipDistance(bool enable, unsigned int index = 0) = 0;
 

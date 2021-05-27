@@ -46,12 +46,20 @@ void Model::SetScale(const Jass::JVec3& scale)
 
 void Model::Render(Jass::Ref<Jass::Shader>& shader, const Light& light, const Jass::JVec4& clipPlane) const
 {
+	if (!m_cullBackface) {
+		Jass::RenderCommand::SetCullMode(Jass::CullMode::None);
+	}
+	
 	m_material.Prepare(shader, light);
 	shader->Bind();
 	Jass::JMat4 normalMatrix = Jass::Transpose(Jass::Inverse(m_transformation));
 	shader->SetMat4("u_normalMatrix", normalMatrix);
 	//shader->SetFloat4("u_clipPlane", clipPlane);
 	Jass::Renderer::Submit(shader, m_mesh.GetVertexArray(), m_mesh.GetRenderMode(), m_transformation);
+
+	if (!m_cullBackface) {
+		Jass::RenderCommand::SetCullMode(Jass::CullMode::Back);
+	}
 }
 
 void Model::CalculateTransformation()

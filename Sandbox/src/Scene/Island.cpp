@@ -97,7 +97,7 @@ void Island::RenderScene(Jass::Timestep ts)
 	}
 
 	m_terrain.Render(m_shaderLib.GetShader("TerrainMaterial"), m_light);
-	//m_water.Render(m_shaderLib.GetShader("WaterMaterial"), m_light, m_playerController.GetCamera());
+	m_water.Render(m_shaderLib.GetShader("WaterMaterial"), m_light, m_playerController.GetCamera());
 
 	m_skybox.Render(m_shaderLib.GetShader("SkyboxShader"), m_playerController.GetCamera());
 }
@@ -311,7 +311,7 @@ void Island::LoadBillboards()
 void Island::LoadModels()
 {
 	Jass::JVec3 sceneScale = { 0.5f, 0.5, 0.5f };
-	return;
+	
 	Model cabin;
 	cabin.Load("assets/models/Island/Cabin-a/cabin-a.obj");
 	cabin.SetPosition({ 0.0f, 45.0f, 0.0f });
@@ -322,8 +322,6 @@ void Island::LoadModels()
 	cabin.GetMaterial().SetSpecularSettings(5.0f, 10.0f);
 	m_sceneModels.push_back(cabin);
 
-	return;
-
 	Model cabinB;
 	cabinB.SetPosition({ 0.0f, 50.0f, 0.0f });
 	cabinB.Load("assets/models/Island/Cabin-b/cabin-b.obj");
@@ -331,8 +329,6 @@ void Island::LoadModels()
 	cabinB.GetMaterial().SetDiffuseTexture("assets/models/Island/Cabin-b/diffuse.jpg");
 	cabinB.GetMaterial().SetNormalTexture("assets/models/Island/Cabin-b/normal.jpg");
 	m_sceneModels.push_back(cabinB);
-
-	return;
 
 	Model dock;
 	dock.SetPosition({ 0.0f, 30.0f, 0.0f });
@@ -375,6 +371,7 @@ void Island::LoadModels()
 		Model leaves;
 		leaves.SetPosition({ 0.0f, 45.0f, 0.0f });
 		leaves.Load("assets/models/Island/Coconut/coconut-leaves.obj");
+		leaves.SetCullBackFace(false);
 		leaves.SetScale(sceneScale);
 		leaves.GetMaterial().SetDiffuseTexture("assets/models/Island/Coconut/leaf-diffuse.png");
 		leaves.GetMaterial().SetNormalTexture("assets/models/Island/Coconut/leaf-normal.png");
@@ -393,6 +390,7 @@ void Island::LoadModels()
 		Model leaves;
 		leaves.SetPosition({ 0.0f, 45.0f, 0.0f });
 		leaves.Load("assets/models/Island/Duo-Palms/duo-palms-leaves.obj");
+		leaves.SetCullBackFace(false);
 		leaves.SetScale(sceneScale);
 		leaves.GetMaterial().SetDiffuseTexture("assets/models/Island/Duo-Palms/leaves-diffuse.png");
 		m_sceneModels.push_back(leaves);
@@ -411,6 +409,7 @@ void Island::LoadModels()
 	Model palm;
 	palm.SetPosition({ 0.0f, 50.0f, 0.0f });
 	palm.Load("assets/models/Island/Arabic-Palm/arabic-palm.obj");
+	palm.SetCullBackFace(false);
 	palm.SetScale(sceneScale);
 	palm.GetMaterial().SetDiffuseTexture("assets/models/Island/Arabic-Palm/diffuse.jpg");
 	palm.GetMaterial().SetNormalTexture("assets/models/Island/Arabic-Palm/normal.jpg");
