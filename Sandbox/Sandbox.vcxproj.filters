@@ -133,6 +133,7 @@
       <Filter>Sandbox3D\stb_image</Filter>
     </ClInclude>
     <ClInclude Include="src\Scene\Island.h" />
+    <ClInclude Include="src\Scene\BasicWater.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\DX11TestLayer.cpp" />
@@ -202,5 +203,6 @@
     </ClCompile>
     <ClCompile Include="src\SandboxApp.cpp" />
     <ClCompile Include="src\Scene\Island.cpp" />
+    <ClCompile Include="src\Scene\BasicWater.cpp" />
   </ItemGroup>
 </Project>

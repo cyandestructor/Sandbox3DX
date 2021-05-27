@@ -3,12 +3,14 @@
 #include <imgui.h>
 
 Island::Island()
-	:m_terrain("assets/textures/IslandTerrain/heightmap.png", 300, 300, 4.0f)
+	:m_terrain("assets/textures/IslandTerrain/heightmap.png", 300, 300, 4.0f),
+	m_water({ 1500.0f, 1500.0f }, 20, 20)
 {
 	float width = float(Jass::Application::Get().GetWindow().GetWidth());
 	float height = float(Jass::Application::Get().GetWindow().GetHeight());
+	m_playerController.SetSpeed(60.0f);
 	m_playerController.GetCamera().SetProjection(60.0f, width, height, 0.01f, 1000.0f);
-	m_playerController.GetCamera().SetPosition({ 0.0f, 40.0f, 0.0f });
+	m_playerController.GetCamera().SetPosition({ 0.0f, 80.0f, 0.0f });
 
 	m_light.SetPosition({ 400.0f, 500.0f, 0.0f });
 
@@ -19,6 +21,13 @@ Island::Island()
 
 	m_isCursorDisabled = true;
 	m_isFlyMode = true;
+
+	m_water.SetPosition({ 0.0f, 40.0f, 0.0f });
+	m_water.SetColor({ 0.2f, 0.6f, 0.8f, 0.5f });
+	m_water.SetTilingFactor(7.0f);
+	m_water.SetDistortionFactor(0.02f);
+	m_water.SetSpecularProperties(5.0f, 10.0f);
+	m_water.SetTextures("assets/textures/Water/diffuse.jpg", "assets/textures/Water/dudv.png", "assets/textures/Water/normal.png");
 }
 
 void Island::OnAttach()
@@ -45,6 +54,7 @@ void Island::OnImGuiRender()
 void Island::OnUpdate(Jass::Timestep ts)
 {
 	UpdateDayCycle(ts);
+	UpdateWater(ts);
 	
 	if (!m_isFlyMode)
 		FixCameraToTerrain();
@@ -75,6 +85,8 @@ void Island::RenderScene(Jass::Timestep ts)
 	}
 
 	m_terrain.Render(m_shaderLib.GetShader("TerrainMaterial"), m_light);
+	m_water.Render(m_shaderLib.GetShader("WaterMaterial"), m_light, m_playerController.GetCamera());
+
 	m_skybox.Render(m_shaderLib.GetShader("SkyboxShader"), m_playerController.GetCamera());
 }
 
@@ -86,8 +98,8 @@ void Island::UpdateDayCycle(Jass::Timestep ts)
 	m_skyRotation = m_skyRotation >= 360 ? 0.0f : m_skyRotation;
 	m_skybox.SetRotation(m_skyRotation);
 
-	float daySpeed = 5.0f;
-	daySpeed *= m_lightAngle >= 360 ? 3.0f : 1.0f;
+	float daySpeed = 2.0f;
+	daySpeed *= m_lightAngle >= 180 ? 3.0f : 1.0f;
 
 	m_lightAngle += daySpeed * ts;
 	m_lightAngle = m_lightAngle >= 360 ? 0.0f : m_lightAngle;
@@ -145,6 +157,7 @@ void Island::UpdateDayCycle(Jass::Timestep ts)
 		billboard.GetMaterial().SetDiffuseReduction(m_ambientReduction);
 	}*/
 
+	m_water.SetAmbientReduction(m_ambientReduction);
 	m_terrain.SetAmbientReduction(m_ambientReduction);
 	m_terrain.SetDiffuseReduction(m_diffuseReduction);
 
@@ -154,11 +167,21 @@ void Island::UpdateDayCycle(Jass::Timestep ts)
 	}
 }
 
+void Island::UpdateWater(Jass::Timestep ts)
+{
+	m_waterMotion += m_waterMotionSpeed * ts;
+	m_waterMotion = m_waterMotion > 1.0f ? 0.0f : m_waterMotion;
+	m_water.SetMotionFactor(m_waterMotion);
+}
+
 void Island::LoadShaders()
 {
 	m_shaderLib.Load("TerrainMaterial", "assets/shaders/DirectX11/TerrainShader.hlsl");
 	m_shaderLib.Load("ModelMaterial", "assets/shaders/DirectX11/NormalsMaterial.hlsl");
 	m_shaderLib.Load("SkyboxShader", "assets/shaders/DirectX11/SkyboxShader.hlsl");
+	m_shaderLib.Load("WaterMaterial", "assets/shaders/DirectX11/BasicWaterShader.hlsl");
+	m_shaderLib.Load("SphericalBillboard", "assets/shaders/DirectX11/SphericalBillboardShader.hlsl");
+	m_shaderLib.Load("CylindricalBillboard", "assets/shaders/DirectX11/CylindricalBillboardShader.hlsl");
 }
 
 void Island::LoadTerrainTextures()
@@ -212,6 +235,10 @@ void Island::LoadSkyboxTextures()
 	m_skybox.AddTexture(texturesNight, "u_night", 2);
 }
 
+void Island::LoadBillboards()
+{
+}
+
 void Island::LoadModels()
 {
 	Jass::JVec3 sceneScale = { 0.5f, 0.5, 0.5f };
@@ -225,6 +252,8 @@ void Island::LoadModels()
 	cabin.GetMaterial().SetSpecularTexture("assets/models/Island/Cabin-a/specular.png");
 	cabin.GetMaterial().SetSpecularSettings(5.0f, 10.0f);
 	m_sceneModels.push_back(cabin);
+
+	return;
 
 	Model cabinB;
 	cabinB.SetPosition({ 0.0f, 50.0f, 0.0f });

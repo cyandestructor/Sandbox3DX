@@ -3,10 +3,12 @@
 
 #include <Jass.h>
 
+#include "BasicWater.h"
 #include "../Sandbox3D/Skybox/Skybox.h"
 #include "../Sandbox3D/Terrain/Terrain.h"
 #include "../Sandbox3D/Model/Model.h"
 #include "../Sandbox3D/Player/PlayerController.h"
+#include "../Sandbox3D/Model/Billboard.h"
 
 class Island : public Jass::Layer {
 
@@ -43,9 +45,14 @@ private:
 	float m_blendNight = 0.0f;
 	float m_blendMorning = 0.0f;
 
+	BasicWater m_water;
+	float m_waterMotion = 0.0f;
+	float m_waterMotionSpeed = 0.03f;
+
 	Terrain m_terrain;
 
 	std::vector<Model> m_sceneModels;
+	std::vector<Billboard> m_sceneBillboards;
 
 	Light m_light;
 
@@ -54,10 +61,12 @@ private:
 	void RenderScene(Jass::Timestep ts);
 
 	void UpdateDayCycle(Jass::Timestep ts);
+	void UpdateWater(Jass::Timestep ts);
 
 	void LoadShaders();
 	void LoadTerrainTextures();
 	void LoadSkyboxTextures();
+	void LoadBillboards();
 	void LoadModels();
 
 	void FixCameraToTerrain();
