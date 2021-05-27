@@ -54,6 +54,10 @@ private:
 	std::vector<Model> m_sceneModels;
 	std::vector<Billboard> m_sceneBillboards;
 
+	Billboard m_seagle;
+	Jass::JVec3 m_seaglePosition = Jass::JVec3(0.0f);
+	float m_seagleAngle = 0.0f;
+
 	Light m_light;
 
 	Jass::ShaderLibrary m_shaderLib;
@@ -62,6 +66,7 @@ private:
 
 	void UpdateDayCycle(Jass::Timestep ts);
 	void UpdateWater(Jass::Timestep ts);
+	void UpdateSeagle(Jass::Timestep ts);
 
 	void LoadShaders();
 	void LoadTerrainTextures();

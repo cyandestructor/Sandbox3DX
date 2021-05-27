@@ -36,6 +36,7 @@ void Island::OnAttach()
 		Jass::Input::SetCursorMode(Jass::CursorMode::Disabled);
 
 	LoadModels();
+	LoadBillboards();
 	LoadShaders();
 	LoadTerrainTextures();
 	LoadSkyboxTextures();
@@ -55,6 +56,7 @@ void Island::OnUpdate(Jass::Timestep ts)
 {
 	UpdateDayCycle(ts);
 	UpdateWater(ts);
+	UpdateSeagle(ts);
 	
 	if (!m_isFlyMode)
 		FixCameraToTerrain();
@@ -84,8 +86,18 @@ void Island::RenderScene(Jass::Timestep ts)
 		model.Render(m_shaderLib.GetShader("ModelMaterial"), m_light);
 	}
 
+	m_seagle.Render(m_shaderLib.GetShader("SphericalBillboard"),
+		m_light, m_playerController.GetCamera());
+
+	for (auto& billboard : m_sceneBillboards) {
+		if (billboard.GetType() == BillboardType::Cylindrical)
+			billboard.Render(m_shaderLib.GetShader("CylindricalBillboard"), m_light, m_playerController.GetCamera());
+		else
+			billboard.Render(m_shaderLib.GetShader("SphericalBillboard"), m_light, m_playerController.GetCamera());
+	}
+
 	m_terrain.Render(m_shaderLib.GetShader("TerrainMaterial"), m_light);
-	m_water.Render(m_shaderLib.GetShader("WaterMaterial"), m_light, m_playerController.GetCamera());
+	//m_water.Render(m_shaderLib.GetShader("WaterMaterial"), m_light, m_playerController.GetCamera());
 
 	m_skybox.Render(m_shaderLib.GetShader("SkyboxShader"), m_playerController.GetCamera());
 }
@@ -149,13 +161,13 @@ void Island::UpdateDayCycle(Jass::Timestep ts)
 	float lightIntensity = std::max(sin(Jass::Radians(m_lightAngle)), 0.01f);
 	m_ambientReduction = m_diffuseReduction = lightIntensity;
 
-	//m_testBillboard.GetMaterial().SetAmbientReduction(m_ambientReduction);
-	//m_testBillboard.GetMaterial().SetDiffuseReduction(m_ambientReduction);
+	m_seagle.GetMaterial().SetAmbientReduction(m_ambientReduction);
+	m_seagle.GetMaterial().SetDiffuseReduction(m_ambientReduction);
 
-	/*for (auto& billboard : m_sceneBillboards) {
+	for (auto& billboard : m_sceneBillboards) {
 		billboard.GetMaterial().SetAmbientReduction(m_ambientReduction);
 		billboard.GetMaterial().SetDiffuseReduction(m_ambientReduction);
-	}*/
+	}
 
 	m_water.SetAmbientReduction(m_ambientReduction);
 	m_terrain.SetAmbientReduction(m_ambientReduction);
@@ -172,6 +184,19 @@ void Island::UpdateWater(Jass::Timestep ts)
 	m_waterMotion += m_waterMotionSpeed * ts;
 	m_waterMotion = m_waterMotion > 1.0f ? 0.0f : m_waterMotion;
 	m_water.SetMotionFactor(m_waterMotion);
+}
+
+void Island::UpdateSeagle(Jass::Timestep ts)
+{
+	m_seagleAngle += 10.0f * ts;
+	m_seagleAngle = m_seagleAngle >= 360.0f ? 0.0f : m_seagleAngle;
+
+	float r = 300.0f;
+	float x = r * std::cos(Jass::Radians(m_seagleAngle));
+	float y = 600.0f;
+	float z = r * std::sin(Jass::Radians(m_seagleAngle));
+
+	m_seagle.SetPosition({ x, y, z });
 }
 
 void Island::LoadShaders()
@@ -237,12 +262,56 @@ void Island::LoadSkyboxTextures()
 
 void Island::LoadBillboards()
 {
+	Billboard tree;
+	tree.SetScale({ 100.0f, 200.0f, 100.0f });
+	tree.SetPosition({ 60.0f, 110.0f, 30.0f });
+	tree.GetMaterial().SetDiffuseTexture("assets/textures/Billboard/arbol.png");
+	tree.GetMaterial().SetNormalTexture("assets/textures/Billboard/arbolNormal.png");
+	tree.SetType(BillboardType::Cylindrical);
+	m_sceneBillboards.push_back(tree);
+
+	Billboard log;
+	log.SetScale({ 60.0f, 40.0f, 50.0f });
+	log.SetPosition({ -180.0f, 60.0f, 60.0f });
+	log.GetMaterial().SetDiffuseTexture("assets/textures/Billboard/log.png");
+	log.GetMaterial().SetNormalTexture("assets/textures/Billboard/logNormal.png");
+	log.SetType(BillboardType::Cylindrical);
+	m_sceneBillboards.push_back(log);
+
+	Billboard rock;
+	rock.SetScale({ 80.0f, 50.0f, 50.0f });
+	rock.SetPosition({ -60.0f, 60.0f, 270.0f });
+	rock.GetMaterial().SetDiffuseTexture("assets/textures/Billboard/rock.png");
+	rock.GetMaterial().SetNormalTexture("assets/textures/Billboard/rockNormal.png");
+	rock.SetType(BillboardType::Spherical);
+	m_sceneBillboards.push_back(rock);
+
+	Billboard hay;
+	hay.SetScale({ 80.0f, 50.0f, 50.0f });
+	hay.SetPosition({ -100.0f, 60.0f, -90.0f });
+	hay.GetMaterial().SetDiffuseTexture("assets/textures/Billboard/hay.png");
+	hay.GetMaterial().SetNormalTexture("assets/textures/Billboard/hayNormal.png");
+	hay.SetType(BillboardType::Cylindrical);
+	m_sceneBillboards.push_back(hay);
+
+	Billboard tree2;
+	tree2.SetScale({ 150.0f, 200.0f, 150.0f });
+	tree2.SetPosition({ 200.0f, 110.0f, 95.0f });
+	tree2.GetMaterial().SetDiffuseTexture("assets/textures/Billboard/arbol2.png");
+	tree2.GetMaterial().SetNormalTexture("assets/textures/Billboard/arbol2Normal.png");
+	tree2.SetType(BillboardType::Cylindrical);
+	m_sceneBillboards.push_back(tree2);
+
+	m_seagle.SetScale({ 50.0f, 50.0f, 50.0f });
+	m_seagle.GetMaterial().SetDiffuseTexture("assets/textures/Billboard/gaviota.png");
+	m_seagle.GetMaterial().SetNormalTexture("assets/textures/Billboard/gaviotaNormal.png");
+	m_seagle.SetType(BillboardType::Spherical);
 }
 
 void Island::LoadModels()
 {
 	Jass::JVec3 sceneScale = { 0.5f, 0.5, 0.5f };
-
+	return;
 	Model cabin;
 	cabin.Load("assets/models/Island/Cabin-a/cabin-a.obj");
 	cabin.SetPosition({ 0.0f, 45.0f, 0.0f });
@@ -352,7 +421,7 @@ void Island::FixCameraToTerrain()
 {
 	auto cameraPosition = m_playerController.GetCamera().GetPosition();
 	cameraPosition.y = m_terrain.GetTerrainHeight(cameraPosition.x, cameraPosition.z);
-	cameraPosition.y += 20.0f;
+	cameraPosition.y += 50.0f;
 	m_playerController.GetCamera().SetPosition(cameraPosition);
 }
 

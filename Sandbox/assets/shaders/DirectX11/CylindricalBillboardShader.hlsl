@@ -127,14 +127,14 @@ float4 psMain(PS_INPUT input) : SV_Target
 
 float4 AmbientLight(float4 lightColor, float reductionFactor)
 {
-	return lightColor * reductionFactor; // ambient light
+	return float4(lightColor.rgb * reductionFactor, 1.0f); // ambient light
 }
 
 float4 DiffuseLight(float3 toLightVector, float3 normal, float4 lightColor, float reductionFactor)
 {
 	float dotProduct = dot(normal, toLightVector);
 	float brightness = max(dotProduct, 0.001f);
-	return lightColor * brightness * reductionFactor; // diffuse light
+	return float4(lightColor.rgb * brightness * reductionFactor, 1.0f); // diffuse light
 }
 
 float4 SpecularLight(float3 lightDirection, float3 normal, float3 toCameraVector, float4 lightColor,
@@ -147,5 +147,5 @@ float4 SpecularLight(float3 lightDirection, float3 normal, float3 toCameraVector
 
 	float dampedFactor = pow(specularFactor, shineDamper);
 
-	return lightColor * dampedFactor * reflectivity * reductionFactor; // specular light
+	return float4(lightColor.rgb * dampedFactor * reflectivity * reductionFactor, 1.0f); // specular light
 }
